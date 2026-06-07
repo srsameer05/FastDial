@@ -1,0 +1,4739 @@
+{
+	"info": {
+		"_postman_id": "433f8bb0-e9d2-4627-ac42-4bc547c46cdf",
+		"name": "Fast Dail",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43271938",
+		"_collection_link": "https://flutterflirt.postman.co/workspace/Team-Workspace~033c79c6-d01b-4d4b-820d-bde5e38945cf/collection/43271614-433f8bb0-e9d2-4627-ac42-4bc547c46cdf?action=share&source=collection_link&creator=43271938"
+	},
+	"item": [
+		{
+			"name": "Admin Panel",
+			"item": [
+				{
+					"name": "authentication",
+					"item": [
+						{
+							"name": "Sign up",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"admin_name\": \"Test kumar\",\r\n    \"email\": \"Test123@gmail.com\",\r\n    \"password\": \"test@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/signup",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"signup"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"admin_name\": \"Test kumar\",\r\n    \"email\": \"Test123@gmail.com\",\r\n    \"password\": \"test@123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/admin/signup",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"signup"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "39"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"27-UCJuAEr9WLWlyrYTqN1Z2sqKZIg\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:20:03 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Admin added successfully!\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"Test123@gmail.com\",\r\n    \"password\": \"test@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"Test123@gmail.com\",\r\n    \"password\": \"test@123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/admin/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "243"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"f3-XPfU9rG1JvVa3tmQRFry77HC+qA\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:22:01 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Login successful\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQyNDY2MTIxLCJleHAiOjE3NTAyNDIxMjF9.8no4Zvpy0Iihu5Dcw0QPcLmNEeAnB17cIa7sPKma2nA\",\n    \"admin\": {\n        \"id\": 2,\n        \"name\": \"Test kumar\",\n        \"email\": \"Test123@gmail.com\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Forgot passowd request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phone\":\"8903115165\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/v1/admin/login/forgetPassword/",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"login",
+										"forgetPassword",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forgot passowrd verify",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n    \"phone\":\"8903115165\",\r\n    \"otp\":\"7283\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/v1/admin/login/verifyOtp",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"login",
+										"verifyOtp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forgot password update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phone\":\"8903115165\",\r\n    \"password\":\"pass123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/v1/admin/login/updatePassword",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"login",
+										"updatePassword"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service Catagories",
+					"item": [
+						{
+							"name": "Insert Service",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"service_category_name\": \"Cooking\",\r\n    \"service_desc\": \"Both veg and non veg can be cooked\",\r\n    \"service_price\": 49.99,\r\n    \"service_category_url\": \"https://example.com/cooking\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/insertSERVICE_CATEGORIES",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"insertSERVICE_CATEGORIES"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"service_category_name\": \"Cooking\",\r\n    \"service_desc\": \"Both veg and non veg can be cooked\",\r\n    \"service_price\": 49.99,\r\n    \"service_category_url\": \"https://example.com/cooking\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/insertSERVICE_CATEGORIES",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"insertSERVICE_CATEGORIES"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:25:03 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Service",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getSERVICE_CATEGORIES",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getSERVICE_CATEGORIES"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/getSERVICE_CATEGORIES",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"getSERVICE_CATEGORIES"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "416"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1a0-e/dQYR8uSpJPGYm0+2kgkPX2zBQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:26:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"service_cat_id\": 1,\n        \"service_category_name\": \"dry Cleaning\",\n        \"service_desc\": \"Complete home cleaning service including dusting, mopping, and sanitization.\",\n        \"service_price\": \"50\",\n        \"service_category_url\": \"https://example.com/home-cleaning\"\n    },\n    {\n        \"service_cat_id\": 3,\n        \"service_category_name\": \"Cooking\",\n        \"service_desc\": \"Both veg and non veg can be cooked\",\n        \"service_price\": \"50\",\n        \"service_category_url\": \"https://example.com/cooking\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Update Service",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"service_cat_id\": 1,\r\n    \"service_category_name\": \"dry wash\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/updateSERVICE_CATEGORIES",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"updateSERVICE_CATEGORIES"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"service_cat_id\": 1,\r\n    \"service_category_name\": \"dry wash\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/updateSERVICE_CATEGORIES",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"updateSERVICE_CATEGORIES"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:37:00 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Service",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/deleteSERVICE_CATEGORIES/:service_cat_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"deleteSERVICE_CATEGORIES",
+										":service_cat_id"
+									],
+									"variable": [
+										{
+											"key": "service_cat_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/deleteSERVICE_CATEGORIES/:service_cat_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"deleteSERVICE_CATEGORIES",
+												":service_cat_id"
+											],
+											"variable": [
+												{
+													"key": "service_cat_id",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "30"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1e-1/FiBpMM1XKXxweaDiweHU+uaCM\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:39:05 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Resource deleted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Service Booking",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"booking_id\": 5,   \r\n        \"vendor_id\": 2\r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/updateservicebooking",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"updateservicebooking"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n        \"booking_id\": 5,   \r\n        \"vendor_id\": 2\r\n }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/updateservicebooking",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"updateservicebooking"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:34:23 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Admin Complaints",
+					"item": [
+						{
+							"name": "Get Vendor Complaints",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getvendorscomplaints",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getvendorscomplaints"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/getvendorscomplaints",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"getvendorscomplaints"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "277"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"115-Yp26lTqwU4XpnsXYu7w1NHh8qcI\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:22:49 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"vend_comp_id\": 4,\n        \"vendor_id\": 2,\n        \"vend_comp_desc\": \"The payment system is not working properly.\",\n        \"vend_comp_date\": \"2025-03-19T23:37:53.000Z\"\n    },\n    {\n        \"vend_comp_id\": 6,\n        \"vendor_id\": 2,\n        \"vend_comp_desc\": \"The user panel is not working properly.\",\n        \"vend_comp_date\": \"2025-03-20T04:39:37.000Z\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Get Customer Complaints",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getCUSTOMERCOMPLAINTS",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getCUSTOMERCOMPLAINTS"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/getCUSTOMERCOMPLAINTS",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"getCUSTOMERCOMPLAINTS"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "246"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"f6-Xl2jPbAaRuBMKtGIVjDKW3tIYQc\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:41:53 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"cust_comp_id\": 2,\n        \"customer_id\": 2,\n        \"cust_comp_desc\": \"not  delivery of order\",\n        \"cust_comp_date\": \"2025-03-21T04:45:00.000Z\"\n    },\n    {\n        \"cust_comp_id\": 3,\n        \"customer_id\": null,\n        \"cust_comp_desc\": \"not  delivery of order\",\n        \"cust_comp_date\": \"2025-03-24T04:45:00.000Z\"\n    }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Subscription",
+					"item": [
+						{
+							"name": "Insert Subscription",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"subscription_name\": \"starting Plan\",\r\n    \"subscription_desc\": \"Access to limited features with basic support.\",\r\n \"subscription_price\": 49.99\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/insertSUBSCRIPTIONS",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"insertSUBSCRIPTIONS"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"subscription_name\": \"starting\",\r\n    \"subscription_desc\": \"Access to limited features with basic support.\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/insertSUBSCRIPTIONS",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"insertSUBSCRIPTIONS"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:26:13 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Subscriptions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getSUBSCRIPTIONS",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getSUBSCRIPTIONS"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/getSUBSCRIPTIONS",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"getSUBSCRIPTIONS"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "450"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1c2-xU8843ntNXucNukZ9PcE9hBMCY8\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:27:01 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"subscription_id\": 1,\n        \"subscription_name\": \"Basic Plan\",\n        \"subscription_desc\": \"Access to limited features with basic support.\",\n        \"subscription_price\": null\n    },\n    {\n        \"subscription_id\": 3,\n        \"subscription_name\": \"normal Plan\",\n        \"subscription_desc\": \"Access to limited features with basic support.\",\n        \"subscription_price\": \"50\"\n    },\n    {\n        \"subscription_id\": 4,\n        \"subscription_name\": \"starting\",\n        \"subscription_desc\": \"Access to limited features with basic support.\",\n        \"subscription_price\": null\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n    {\r\n        \"subscription_id\": 1,\r\n        \"subscription_name\": \"Plan\",\r\n        \"subscription_desc\": \"Access to limited features with basic support.\",\r\n        \"subscription_price\": \"500\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/updateSUBSCRIPTIONS",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"updateSUBSCRIPTIONS"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"subscription_id\": 2,\r\n    \"subscription_desc\": \"Access to limited features with support.\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/updateSUBSCRIPTIONS",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"updateSUBSCRIPTIONS"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:28:36 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/deleteSUBSCRIPTIONS/:subscription_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"deleteSUBSCRIPTIONS",
+										":subscription_id"
+									],
+									"variable": [
+										{
+											"key": "subscription_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/deleteSUBSCRIPTIONS/:subscription_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"deleteSUBSCRIPTIONS",
+												":subscription_id"
+											],
+											"variable": [
+												{
+													"key": "subscription_id",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "30"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1e-1/FiBpMM1XKXxweaDiweHU+uaCM\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:30:05 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Resource deleted\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Manage Customer",
+					"item": [
+						{
+							"name": "Get Customers",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getcustomers",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getcustomers"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/getcustomers",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"getcustomers"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "561"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"231-AbS2TUlno/j10mav/yx35ZiCAzA\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:31:37 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"customer_id\": 2,\n        \"customer_name\": \"John\",\n        \"mobile\": \"9876543210\",\n        \"customer_country\": \"USA\",\n        \"gender\": \"Male\",\n        \"customer_address\": {\n            \"city\": \"New\",\n            \"state\": \"NY\",\n            \"street\": \"123 Main St\",\n            \"zipcode\": \"10001\"\n        },\n        \"customer_email\": \"johndoe@example.com\",\n        \"customer_password\": \"$2b$10$8EkqYLtpdXDvuc1ebfv52.MI8L0TAg/HmFXCY3h0MAz0C6eaYmMcO\"\n    },\n    {\n        \"customer_id\": 3,\n        \"customer_name\": \"chandan\",\n        \"mobile\": null,\n        \"customer_country\": null,\n        \"gender\": null,\n        \"customer_address\": null,\n        \"customer_email\": \"chandan99file@gmail.com\",\n        \"customer_password\": \"$2b$10$ra2ThSULm31lJEXPbLV6UOfYDzo2tPrp13545yyeG1kOLMsI2aRXC\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Get Customer Service Details",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getcustomerservicedetails",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getcustomerservicedetails"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/getcustomerservicedetails",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"getcustomerservicedetails"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1657"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"679-7cUOoHfFGSzCW8Yf2jD25eK/k6c\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:55:43 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"customer_id\": 2,\n        \"customer_name\": \"test Doe\",\n        \"mobile\": \"9876543210\",\n        \"customer_country\": \"USA\",\n        \"gender\": \"Male\",\n        \"customer_address\": {\n            \"city\": \"New York\",\n            \"state\": \"NY\",\n            \"street\": \"123 Main St\",\n            \"zipcode\": \"10001\"\n        },\n        \"customer_email\": \"johndoe@example.com\",\n        \"booking_id\": 6,\n        \"vendor_id\": 2,\n        \"is_booked\": 1,\n        \"is_completed\": 0,\n        \"is_cancelled\": 0,\n        \"cancelled_reason\": null,\n        \"service_cat_id\": 1,\n        \"service_category_name\": \"dry wash\",\n        \"service_desc\": \"Complete home cleaning service including dusting, mopping, and sanitization.\",\n        \"service_price\": \"50\",\n        \"service_category_url\": \"https://example.com/home-cleaning\"\n    },\n    {\n        \"customer_id\": 2,\n        \"customer_name\": \"test Doe\",\n        \"mobile\": \"9876543210\",\n        \"customer_country\": \"USA\",\n        \"gender\": \"Male\",\n        \"customer_address\": {\n            \"city\": \"New York\",\n            \"state\": \"NY\",\n            \"street\": \"123 Main St\",\n            \"zipcode\": \"10001\"\n        },\n        \"customer_email\": \"johndoe@example.com\",\n        \"booking_id\": 7,\n        \"vendor_id\": 2,\n        \"is_booked\": 0,\n        \"is_completed\": 0,\n        \"is_cancelled\": 1,\n        \"cancelled_reason\": \"NO\",\n        \"service_cat_id\": 5,\n        \"service_category_name\": \"Fan\",\n        \"service_desc\": \"Complete home electrical .\",\n        \"service_price\": \"500\",\n        \"service_category_url\": \"https://example.com/home-cleaning\"\n    },\n    {\n        \"customer_id\": 2,\n        \"customer_name\": \"test Doe\",\n        \"mobile\": \"9876543210\",\n        \"customer_country\": \"USA\",\n        \"gender\": \"Male\",\n        \"customer_address\": {\n            \"city\": \"New York\",\n            \"state\": \"NY\",\n            \"street\": \"123 Main St\",\n            \"zipcode\": \"10001\"\n        },\n        \"customer_email\": \"johndoe@example.com\",\n        \"booking_id\": 8,\n        \"vendor_id\": null,\n        \"is_booked\": 1,\n        \"is_completed\": 0,\n        \"is_cancelled\": 0,\n        \"cancelled_reason\": null,\n        \"service_cat_id\": 1,\n        \"service_category_name\": \"dry wash\",\n        \"service_desc\": \"Complete home cleaning service including dusting, mopping, and sanitization.\",\n        \"service_price\": \"50\",\n        \"service_category_url\": \"https://example.com/home-cleaning\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "get customer payment details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/paymentdetails/2",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"paymentdetails",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all customer payment details",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Manage Customer Service Requests",
+					"item": [
+						{
+							"name": "get customer service",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getcustomerservicedetails",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getcustomerservicedetails"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assign vendor for customer service",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"booking_id\": 8,\r\n   \r\n        \"vendor_id\": 2\r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/updateservicebooking",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"updateservicebooking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Manage Vendors",
+					"item": [
+						{
+							"name": "Get Vendors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getvendors",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getvendors"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/admin/data/getvendors",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"admin",
+												"data",
+												"getvendors"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1946"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"79a-DvrTE3XbQNJ1bxRv93Gn8nJkKOk\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:32:17 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"vendor_id\": 2,\n        \"vendor_name\": \"Test Test\",\n        \"vendor_email\": \"test@example.com\",\n        \"vendor_password\": \"Test123\",\n        \"vendor_mobile\": \"9876543218\",\n        \"name_of_bussiness\": \"Test Enterprises\",\n        \"bussiness_category\": \"Retail\",\n        \"fast_service_category_name\": \"Express Delivery\",\n        \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\n        \"gst_number\": \"GSTIN123456789\",\n        \"company_category\": \"Private\",\n        \"service_radius\": \"50\",\n        \"bussiness_address\": \"123 Main Street, City, Country\",\n        \"pincode\": \"123456\",\n        \"service_start_time\": \"09:00 AM\",\n        \"service_end_time\": \"06:00 PM\",\n        \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\n        \"image_url\": [\n            \"https://example.com/images/vendor1.png\",\n            \"https://example.com/images/vendor2.png\"\n        ],\n        \"account_details\": {\n            \"ifsc\": \"IFSC0001234\",\n            \"accountNumber\": \"123456789\"\n        },\n        \"kyc_docs\": {\n            \"pan\": \"ABCDE1234F\",\n            \"aadhar\": \"123456789012\"\n        },\n        \"is_approved\": 0,\n        \"approved_by\": null,\n        \"is_rejected\": 0,\n        \"rejected_by\": null,\n        \"approved_date\": null,\n        \"rejected_date\": null\n    },\n    {\n        \"vendor_id\": 4,\n        \"vendor_name\": \"John Doe\",\n        \"vendor_email\": \"john.doe@example.com\",\n        \"vendor_password\": \"$2b$10$2PoTBVMR.hF/eE2I8FfsD.ieL/ISaUt.vDXsNyBW4Wonx85pD4tde\",\n        \"vendor_mobile\": \"9876543210\",\n        \"name_of_bussiness\": \"Doe Enterprises\",\n        \"bussiness_category\": \"Retail\",\n        \"fast_service_category_name\": \"Express Delivery\",\n        \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\n        \"gst_number\": \"GSTIN123456789\",\n        \"company_category\": \"Private\",\n        \"service_radius\": \"50\",\n        \"bussiness_address\": \"123 Main Street, City, Country\",\n        \"pincode\": \"123456\",\n        \"service_start_time\": \"09:00 AM\",\n        \"service_end_time\": \"06:00 PM\",\n        \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\n        \"image_url\": [\n            \"https://example.com/images/vendor1.png\",\n            \"https://example.com/images/vendor2.png\"\n        ],\n        \"account_details\": {\n            \"ifsc\": \"IFSC0001234\",\n            \"accountNumber\": \"123456789\"\n        },\n        \"kyc_docs\": {\n            \"pan\": \"ABCDE1234F\",\n            \"aadhar\": \"123456789012\"\n        },\n        \"is_approved\": 0,\n        \"approved_by\": null,\n        \"is_rejected\": 0,\n        \"rejected_by\": null,\n        \"approved_date\": null,\n        \"rejected_date\": null\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "approve vendor request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vendor_id\": 1,\r\n    \"is_approved\": 1,\r\n    \"approved_by\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/updatevendors",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"updatevendors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reject vendor request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vendor_id\": 8,\r\n    \"is_rejected\" :1 ,\r\n    \"rejected_by\" :1\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/updatevendors",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"updatevendors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get rejected vendors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getvendors_reject",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getvendors_reject"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "approved vendors",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getvendors_approve",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getvendors_approve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "pending vendor requests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/admin/data/getvendors_pending",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"admin",
+										"data",
+										"getvendors_pending"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Vendor Panel",
+			"item": [
+				{
+					"name": "authentication",
+					"item": [
+						{
+							"name": "Forgot Password",
+							"item": [
+								{
+									"name": "Post API",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{AUTH_TOKEN}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": " {\r\n  \"vendor_mobile\": \"7488406481\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/v1/vendors/login/forgetPassword",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"v1",
+												"vendors",
+												"login",
+												"forgetPassword"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "{{BASE_URL}}/vendors/login/verifyOtp",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"mobile\": \"9488637490\",\r\n  \"otp_code\": \"1572\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/login/verifyOtp",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"login",
+												"verifyOtp"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"if (jsonData.token) {\r",
+											"    pm.environment.set(\"AUTH_TOKEN\", jsonData.token);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n       \"vendor_email\": \"test.aoe@example.com\",\r\n  \"vendor_password\": \"Abi@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vendor_email\": \"john.doe@example.com\",\r\n    \"vendor_password\": \"SecurePassword123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "330"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"14a-VQ9b1M8eUrWwCPaV3Tvu2kmE9pY\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 07:28:31 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Login successful\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzQyNDU1NzExLCJleHAiOjE3NTAyMzE3MTF9.NAc3cg5iD0HMUeuPbwlo2uORIe2DFMAIHT6xKClQyTc\",\n    \"vendor\": {\n        \"id\": 2,\n        \"name\": \"John Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"mobile\": \"9876543210\",\n        \"business_name\": \"Doe Enterprises\",\n        \"business_category\": \"Retail\"\n    }\n}"
+								},
+								{
+									"name": "Login Error message",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vendor_email\": \"john.doe@example.com\"\r\n    \r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"login"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "61"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3d-4OxjVVjZtwBCJLlR5CpDfHeqZKI\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 07:29:27 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"fail\",\n    \"message\": \"Email and password are required\"\n}"
+								}
+							]
+						},
+						{
+							"name": "signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vendor_name\": \"pancham test\",\r\n  \"vendor_email\": \"pancham@gmail.com\",\r\n  \"vendor_password\": \"password123\",\r\n  \"vendor_mobile\": \"8549071249\",\r\n  \"name_of_bussiness\": \"Doe Enterprises\",\r\n  \"bussiness_category\": \"Retail\",\r\n  \"fast_service_category_name\": \"Express Delivery\",\r\n  \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\r\n  \"gst_number\": \"GSTIN123456789\",\r\n  \"company_category\": \"Private\",\r\n  \"service_radius\": 50,\r\n  \"bussiness_address\": \"123 Main Street, City, Country\",\r\n  \"pincode\": 123456,\r\n  \"service_start_time\": \"09:00 AM\",\r\n  \"service_end_time\": \"06:00 PM\",\r\n  \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\r\n  \"image_url\": [\r\n    \"https://example.com/images/vendor1.png\",\r\n    \"https://example.com/images/vendor2.png\"\r\n  ],\r\n  \"account_details\": {\r\n    \"accountNumber\": \"123456789\",\r\n    \"ifsc\": \"IFSC0001234\"\r\n  },\r\n  \"kyc_docs\": {\r\n    \"pan\": \"ABCDE1234F\",\r\n    \"pan_photo\": \"https://example.com/docs/pan_photo.jpg\",\r\n    \"aadhar\": \"123456789012\",\r\n    \"aadhar_photo\": \"https://example.com/docs/aadhar_photo.jpg\"\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/signup",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"signup"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Signup Success Message",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"vendor_name\": \"Test Doe\",\r\n  \"vendor_email\": \"test.doe@example.com\",\r\n  \"vendor_password\": \"SecurePassword123\",\r\n  \"vendor_mobile\": 9876543219,\r\n  \"name_of_bussiness\": \"Doe Enterprises\",\r\n  \"bussiness_category\": \"Retail\",\r\n  \"fast_service_category_name\": \"Express Delivery\",\r\n  \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\r\n  \"gst_number\": \"GSTIN123456789\",\r\n  \"company_category\": \"Private\",\r\n  \"service_radius\": 50,\r\n  \"bussiness_address\": \"123 Main Street, City, Country\",\r\n  \"pincode\": 123456,\r\n  \"service_start_time\": \"09:00 AM\",\r\n  \"service_end_time\": \"06:00 PM\",\r\n  \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\r\n  \"image_url\": [\r\n    \"https://example.com/images/vendor1.png\",\r\n    \"https://example.com/images/vendor2.png\"\r\n  ],\r\n  \"account_details\": {\r\n    \"accountNumber\": \"123456789\",\r\n    \"ifsc\": \"IFSC0001234\"\r\n  },\r\n  \"kyc_docs\": {\r\n    \"pan\": \"ABCDE1234F\",\r\n    \"aadhar\": \"123456789012\"\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/signup",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"signup"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "45"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2d-CEUht9u6tV1hFODDbkQ70JGTjbQ\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 09:47:36 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Vendor registered successfully!\"\n}"
+								},
+								{
+									"name": "Signup Error message",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"vendor_name\": \"\",\r\n  \"vendor_email\": \"test.doe@example.com\",\r\n  \"vendor_password\": \"SecurePassword123\",\r\n  \"vendor_mobile\": 9876543219,\r\n  \"name_of_bussiness\": \"Doe Enterprises\",\r\n  \"bussiness_category\": \"Retail\",\r\n  \"fast_service_category_name\": \"Express Delivery\",\r\n  \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\r\n  \"gst_number\": \"GSTIN123456789\",\r\n  \"company_category\": \"Private\",\r\n  \"service_radius\": 50,\r\n  \"bussiness_address\": \"123 Main Street, City, Country\",\r\n  \"pincode\": 123456,\r\n  \"service_start_time\": \"09:00 AM\",\r\n  \"service_end_time\": \"06:00 PM\",\r\n  \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\r\n  \"image_url\": [\r\n    \"https://example.com/images/vendor1.png\",\r\n    \"https://example.com/images/vendor2.png\"\r\n  ],\r\n  \"account_details\": {\r\n    \"accountNumber\": \"123456789\",\r\n    \"ifsc\": \"IFSC0001234\"\r\n  },\r\n  \"kyc_docs\": {\r\n    \"pan\": \"ABCDE1234F\",\r\n    \"aadhar\": \"123456789012\"\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/signup",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"signup"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "66"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"42-OX37Y01gw1s7rY7uywui8hYUZRs\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 09:47:54 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"fail\",\n    \"message\": \"All required fields must be provided\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Vendors",
+					"item": [
+						{
+							"name": "Get vendors",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/getvendors",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"getvendors"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success responce",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/getvendors",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"getvendors"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "4122"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"101a-A10PgfkpClHa/c5PJ/hjRrdfkBE\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 27 Mar 2025 14:09:08 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"vendor_id\": 2,\n        \"vendor_name\": \"Test Test\",\n        \"vendor_email\": \"test@example.com\",\n        \"vendor_password\": \"Test123\",\n        \"vendor_mobile\": \"9876543218\",\n        \"name_of_bussiness\": \"Test Enterprises\",\n        \"bussiness_category\": \"Retail\",\n        \"fast_service_category_name\": \"Express Delivery\",\n        \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\n        \"gst_number\": \"GSTIN123456789\",\n        \"company_category\": \"Private\",\n        \"service_radius\": \"50\",\n        \"bussiness_address\": \"123 Main Street, City, Country\",\n        \"pincode\": \"123456\",\n        \"service_start_time\": \"09:00 AM\",\n        \"service_end_time\": \"06:00 PM\",\n        \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\n        \"image_url\": [\n            \"https://example.com/images/vendor1.png\",\n            \"https://example.com/images/vendor2.png\"\n        ],\n        \"account_details\": {\n            \"ifsc\": \"IFSC0001234\",\n            \"accountNumber\": \"123456789\"\n        },\n        \"kyc_docs\": {\n            \"pan\": \"ABCDE1234F\",\n            \"aadhar\": \"123456789012\"\n        },\n        \"is_approved\": 1,\n        \"approved_by\": \"1\",\n        \"is_rejected\": 0,\n        \"rejected_by\": null,\n        \"approved_date\": null,\n        \"rejected_date\": null\n    },\n    {\n        \"vendor_id\": 4,\n        \"vendor_name\": \"John Doe\",\n        \"vendor_email\": \"john.doe@example.com\",\n        \"vendor_password\": \"$2b$10$2PoTBVMR.hF/eE2I8FfsD.ieL/ISaUt.vDXsNyBW4Wonx85pD4tde\",\n        \"vendor_mobile\": \"9876543211\",\n        \"name_of_bussiness\": \"Doe private limited\",\n        \"bussiness_category\": \"Retail\",\n        \"fast_service_category_name\": \"Express package\",\n        \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\n        \"gst_number\": \"GSTIN123456789\",\n        \"company_category\": \"Private\",\n        \"service_radius\": \"50\",\n        \"bussiness_address\": \"123 Main Street, City, Country\",\n        \"pincode\": \"123456\",\n        \"service_start_time\": \"09:00 AM\",\n        \"service_end_time\": \"06:00 PM\",\n        \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\n        \"image_url\": [\n            \"https://kaveri-app-bucket.s3.amazonaws.com/61cee660-0af5-11f0-9e2e-51cf8a431ef7\"\n        ],\n        \"account_details\": {\n            \"ifsc\": \"\",\n            \"bankName\": \"\",\n            \"accountNumber\": \"12345678990\",\n            \"accountHolderName\": \"john the\"\n        },\n        \"kyc_docs\": {\n            \"pan\": \"12345678\",\n            \"aadhar\": \"123456789\",\n            \"pan_photo\": \"\",\n            \"aadhar_photo\": \"\"\n        },\n        \"is_approved\": 0,\n        \"approved_by\": null,\n        \"is_rejected\": 0,\n        \"rejected_by\": null,\n        \"approved_date\": null,\n        \"rejected_date\": null\n    },\n    {\n        \"vendor_id\": 5,\n        \"vendor_name\": \"Test Doe\",\n        \"vendor_email\": \"test.doe@example.com\",\n        \"vendor_password\": \"$2b$10$EibNLwymR.lG.ZdWa4dTtuI7YPi5ePPxjukur2ROxSrQAH35mPRV6\",\n        \"vendor_mobile\": \"9876543219\",\n        \"name_of_bussiness\": \"Doe Enterprises\",\n        \"bussiness_category\": \"Retail\",\n        \"fast_service_category_name\": \"Express Delivery\",\n        \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\n        \"gst_number\": \"GSTIN123456789\",\n        \"company_category\": \"Private\",\n        \"service_radius\": \"50\",\n        \"bussiness_address\": \"123 Main Street, City, Country\",\n        \"pincode\": \"123456\",\n        \"service_start_time\": \"09:00 AM\",\n        \"service_end_time\": \"06:00 PM\",\n        \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\n        \"image_url\": [\n            \"https://example.com/images/vendor1.png\",\n            \"https://example.com/images/vendor2.png\"\n        ],\n        \"account_details\": {\n            \"ifsc\": \"IFSC0001234\",\n            \"accountNumber\": \"123456789\"\n        },\n        \"kyc_docs\": {\n            \"pan\": \"ABCDE1234F\",\n            \"aadhar\": \"123456789012\"\n        },\n        \"is_approved\": 0,\n        \"approved_by\": null,\n        \"is_rejected\": 0,\n        \"rejected_by\": null,\n        \"approved_date\": null,\n        \"rejected_date\": null\n    },\n    {\n        \"vendor_id\": 6,\n        \"vendor_name\": \"Prateek\",\n        \"vendor_email\": \"Prateek@example.com\",\n        \"vendor_password\": \"$2b$10$IKdCCp.LndP0oIxYLAEjCucSaVT6YKRBAgTuXMJqfzxaUj5M0yYci\",\n        \"vendor_mobile\": \"9876543222\",\n        \"name_of_bussiness\": \"Doe Enterprises\",\n        \"bussiness_category\": \"Retail\",\n        \"fast_service_category_name\": \"Express Delivery\",\n        \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\n        \"gst_number\": \"GSTIN123456789\",\n        \"company_category\": \"Private\",\n        \"service_radius\": \"50\",\n        \"bussiness_address\": \"123 Main Street, City, Country\",\n        \"pincode\": \"123456\",\n        \"service_start_time\": \"09:00 AM\",\n        \"service_end_time\": \"06:00 PM\",\n        \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\n        \"image_url\": [\n            \"https://example.com/images/vendor1.png\",\n            \"https://example.com/images/vendor2.png\"\n        ],\n        \"account_details\": {\n            \"ifsc\": \"IFSC0001234\",\n            \"accountNumber\": \"123456789\"\n        },\n        \"kyc_docs\": {\n            \"pan\": \"ABCDE1234F\",\n            \"aadhar\": \"123456789012\",\n            \"pan_photo\": \"https://example.com/docs/pan_photo.jpg\",\n            \"aadhar_photo\": \"https://example.com/docs/aadhar_photo.jpg\"\n        },\n        \"is_approved\": 0,\n        \"approved_by\": null,\n        \"is_rejected\": 0,\n        \"rejected_by\": null,\n        \"approved_date\": null,\n        \"rejected_date\": null\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Update Vendors",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vendor_id\":2,\r\n  \"vendor_name\": \"Test Test\",\r\n  \"vendor_email\": \"test@example.com\",\r\n  \"vendor_password\": \"Test123\",\r\n  \"vendor_mobile\": 9876543218,\r\n  \"name_of_bussiness\": \"Test Enterprises\",\r\n  \"bussiness_category\": \"Retail\",\r\n  \"fast_service_category_name\": \"Express Delivery\",\r\n  \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\r\n  \"gst_number\": \"GSTIN123456789\",\r\n  \"company_category\": \"Private\",\r\n  \"service_radius\": 50,\r\n  \"bussiness_address\": \"123 Main Street, City, Country\",\r\n  \"pincode\": 123456,\r\n  \"service_start_time\": \"09:00 AM\",\r\n  \"service_end_time\": \"06:00 PM\",\r\n  \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\r\n  \"image_url\": [\r\n    \"https://example.com/images/vendor1.png\",\r\n    \"https://example.com/images/vendor2.png\"\r\n  ],\r\n  \"account_details\": {\r\n    \"accountNumber\": \"123456789\",\r\n    \"ifsc\": \"IFSC0001234\"\r\n  },\r\n  \"kyc_docs\": {\r\n    \"pan\": \"ABCDE1234F\",\r\n    \"aadhar\": \"123456789012\"\r\n  }\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/updatevendors",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"updatevendors"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"vendor_id\":2,\r\n  \"vendor_name\": \"Test Test\",\r\n  \"vendor_email\": \"test@example.com\",\r\n  \"vendor_password\": \"Test123\",\r\n  \"vendor_mobile\": 9876543218,\r\n  \"name_of_bussiness\": \"Test Enterprises\",\r\n  \"bussiness_category\": \"Retail\",\r\n  \"fast_service_category_name\": \"Express Delivery\",\r\n  \"bussiness_proof_doc_url\": \"https://example.com/docs/proof.pdf\",\r\n  \"gst_number\": \"GSTIN123456789\",\r\n  \"company_category\": \"Private\",\r\n  \"service_radius\": 50,\r\n  \"bussiness_address\": \"123 Main Street, City, Country\",\r\n  \"pincode\": 123456,\r\n  \"service_start_time\": \"09:00 AM\",\r\n  \"service_end_time\": \"06:00 PM\",\r\n  \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\r\n  \"image_url\": [\r\n    \"https://example.com/images/vendor1.png\",\r\n    \"https://example.com/images/vendor2.png\"\r\n  ],\r\n  \"account_details\": {\r\n    \"accountNumber\": \"123456789\",\r\n    \"ifsc\": \"IFSC0001234\"\r\n  },\r\n  \"kyc_docs\": {\r\n    \"pan\": \"ABCDE1234F\",\r\n    \"aadhar\": \"123456789012\"\r\n  }\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/updatevendors",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"updatevendors"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:46:42 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Vendor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/deletevendors/:vendor_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"deletevendors",
+										":vendor_id"
+									],
+									"variable": [
+										{
+											"key": "vendor_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/deletevendors/:vendor_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"deletevendors",
+												":vendor_id"
+											],
+											"variable": [
+												{
+													"key": "vendor_id",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "30"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1e-1/FiBpMM1XKXxweaDiweHU+uaCM\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 09:58:43 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Resource deleted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Vendor Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/getvendorprofile/:vendor_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"getvendorprofile",
+										":vendor_id"
+									],
+									"variable": [
+										{
+											"key": "vendor_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/getvendorprofile/:vendor_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"getvendorprofile",
+												":vendor_id"
+											],
+											"variable": [
+												{
+													"key": "vendor_id",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "675"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2a3-dp9+FM9nFSJrSDSwMOi+Qx065wg\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:00:57 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Vendor profile fetched successfully\",\n    \"data\": {\n        \"vendor_id\": 2,\n        \"vendor_name\": \"John Doe\",\n        \"vendor_email\": \"john.doe@example.com\",\n        \"vendor_mobile\": \"9876543210\",\n        \"name_of_bussiness\": \"Doe Enterprises\",\n        \"bussiness_category\": \"Retail\",\n        \"fast_service_category_name\": \"Express Delivery\",\n        \"gst_number\": \"GSTIN123456789\",\n        \"company_category\": \"Private\",\n        \"service_radius\": \"50\",\n        \"bussiness_address\": \"123 Main Street, City, Country\",\n        \"pincode\": \"123456\",\n        \"service_start_time\": \"09:00 AM\",\n        \"service_end_time\": \"06:00 PM\",\n        \"bussiness_desc\": \"A retail business providing quality products to local customers.\",\n        \"image_url\": [\n            \"https://example.com/images/vendor1.png\",\n            \"https://example.com/images/vendor2.png\"\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Vendor Complaints",
+					"item": [
+						{
+							"name": "Get Vendor Complaints",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/getvendorscomplaints",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"getvendorscomplaints"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Message",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/getvendorscomplaints",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"getvendorscomplaints"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "141"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"8d-WGcIhxlC34KvpOccQLnn0FuPgLU\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:03:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"vend_comp_id\": 4,\n        \"vendor_id\": 2,\n        \"vend_comp_desc\": \"The payment system is not working properly.\",\n        \"vend_comp_date\": \"2025-03-19T23:37:53.000Z\"\n    }\n]"
+								},
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/getvendorscomplaints",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"getvendorscomplaints"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "277"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"115-0tFt6M+rq6ZJ5K13qtAqG9b9ngg\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:08:12 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"vend_comp_id\": 4,\n        \"vendor_id\": 2,\n        \"vend_comp_desc\": \"The payment system is not working properly.\",\n        \"vend_comp_date\": \"2025-03-19T23:37:53.000Z\"\n    },\n    {\n        \"vend_comp_id\": 5,\n        \"vendor_id\": 2,\n        \"vend_comp_desc\": \"The user panel is not working properly.\",\n        \"vend_comp_date\": \"2025-03-20T04:35:52.000Z\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Insert Vendor Complaint",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"vendor_id\": 2,\r\n    \"vend_comp_desc\": \"The user panel is not working properly.\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/insertvendorscomplaints",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"insertvendorscomplaints"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"vendor_id\": 2,\r\n    \"vend_comp_desc\": \"The user panel is not working properly.\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/insertvendorscomplaints",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"insertvendorscomplaints"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:05:58 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Vendor Complaint",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n        \"vend_comp_id\": 5,\r\n        \"vendor_id\": 2,\r\n        \"vend_comp_desc\": \"Payment gateway has no UPI transaction\"\r\n   \r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/updatevendorscomplaints",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"updatevendorscomplaints"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": " {\r\n        \"vend_comp_id\": 1,\r\n        \"vendor_id\": 2,\r\n        \"vend_comp_desc\": \"Payment gateway has no UPI transaction\"\r\n   \r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/updatevendorscomplaints",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"updatevendorscomplaints"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:08:35 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Vendor Complaints",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/deletevendorscomplaints/:vend_comp_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"deletevendorscomplaints",
+										":vend_comp_id"
+									],
+									"variable": [
+										{
+											"key": "vend_comp_id",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/deletevendorscomplaints/:vend_comp_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"deletevendorscomplaints",
+												":vend_comp_id"
+											],
+											"variable": [
+												{
+													"key": "vend_comp_id",
+													"value": "5"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "44"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2c-3pvHJrTGEpZ2dLtwwWCpnnGWMXk\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 20 Mar 2025 10:11:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Complaint deleted successfully\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Vendor Service",
+					"item": [
+						{
+							"name": "Get Customer Service",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/getcustomerservices/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"getcustomerservices",
+										"1"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/getcustomerservices/:vendor_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"getcustomerservices",
+												":vendor_id"
+											],
+											"variable": [
+												{
+													"key": "vendor_id",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1145"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"479-nbb4Is0sFTZI6eJW1oZygasBeP0\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:23:40 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"booking_id\": 5,\n            \"service_cat_id\": 1,\n            \"customer_id\": 2,\n            \"is_booked\": 1,\n            \"is_completed\": 0,\n            \"is_cancelled\": 0,\n            \"cancelled_reason\": null,\n            \"vendor_id\": 2,\n            \"customer_name\": \"John\",\n            \"mobile\": \"9876543210\",\n            \"customer_country\": \"USA\",\n            \"gender\": \"Male\",\n            \"customer_address\": {\n                \"city\": \"New\",\n                \"state\": \"NY\",\n                \"street\": \"123 Main St\",\n                \"zipcode\": \"10001\"\n            },\n            \"customer_email\": \"johndoe@example.com\",\n            \"service_category_name\": \"dry wash\",\n            \"service_desc\": \"Complete home cleaning service including dusting, mopping, and sanitization.\",\n            \"service_price\": \"50\",\n            \"service_category_url\": \"https://example.com/home-cleaning\"\n        },\n        {\n            \"booking_id\": 6,\n            \"service_cat_id\": 1,\n            \"customer_id\": 2,\n            \"is_booked\": 1,\n            \"is_completed\": 0,\n            \"is_cancelled\": 0,\n            \"cancelled_reason\": null,\n            \"vendor_id\": 2,\n            \"customer_name\": \"John\",\n            \"mobile\": \"9876543210\",\n            \"customer_country\": \"USA\",\n            \"gender\": \"Male\",\n            \"customer_address\": {\n                \"city\": \"New\",\n                \"state\": \"NY\",\n                \"street\": \"123 Main St\",\n                \"zipcode\": \"10001\"\n            },\n            \"customer_email\": \"johndoe@example.com\",\n            \"service_category_name\": \"dry wash\",\n            \"service_desc\": \"Complete home cleaning service including dusting, mopping, and sanitization.\",\n            \"service_price\": \"50\",\n            \"service_category_url\": \"https://example.com/home-cleaning\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Service Booking",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"booking_id\": 4,\r\n        \"service_cat_id\": 2,\r\n        \"customer_id\": 2,\r\n        \"is_completed\": 1,\r\n        \"is_cancelled\": 0,\r\n        \"vendor_id\": 1\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/updateservicebooking",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"updateservicebooking"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n        \"booking_id\": 7,\r\n        \"service_cat_id\": 5,\r\n        \"customer_id\": 2,\r\n        \"is_booked\": 0,\r\n        \"is_completed\": 0,\r\n        \"is_cancelled\": 1,\r\n        \"cancelled_reason\": \"NO\",\r\n        \"vendor_id\": 2\r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/updateservicebooking",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"updateservicebooking"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:24:23 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								},
+								{
+									"name": "cancel service request",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n        \"booking_id\": 5,\r\n        \"service_cat_id\": 2,\r\n        \"customer_id\": 2,\r\n        \"is_completed\": 0,\r\n        \"is_cancelled\": 1,\r\n        \"cancelled_reason\": \"NO\",\r\n        \"vendor_id\": 2\r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/updateservicebooking",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"updateservicebooking"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 03 Apr 2025 11:39:28 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								},
+								{
+									"name": "service request completed",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n        \"booking_id\": 4,\r\n        \"service_cat_id\": 2,\r\n        \"customer_id\": 2,\r\n        \"is_completed\": 1,\r\n        \"is_cancelled\": 0,\r\n        \"vendor_id\": 1\r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/updateservicebooking",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"updateservicebooking"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 03 Apr 2025 11:44:31 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Subscription",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/getSUBSCRIPTIONS",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"getSUBSCRIPTIONS"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/vendors/data/getSUBSCRIPTIONS",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"vendors",
+												"data",
+												"getSUBSCRIPTIONS"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "450"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1c2-xU8843ntNXucNukZ9PcE9hBMCY8\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 09:43:24 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"subscription_id\": 1,\n        \"subscription_name\": \"Basic Plan\",\n        \"subscription_desc\": \"Access to limited features with basic support.\",\n        \"subscription_price\": null\n    },\n    {\n        \"subscription_id\": 3,\n        \"subscription_name\": \"normal Plan\",\n        \"subscription_desc\": \"Access to limited features with basic support.\",\n        \"subscription_price\": \"50\"\n    },\n    {\n        \"subscription_id\": 4,\n        \"subscription_name\": \"starting\",\n        \"subscription_desc\": \"Access to limited features with basic support.\",\n        \"subscription_price\": null\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "{{BASE_URL}}/vendors/data/getCompletedBookingsCount/:vendor_id",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/vendors/data/getCompletedBookingsCount/:vendor_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"vendors",
+										"data",
+										"getCompletedBookingsCount",
+										":vendor_id"
+									],
+									"variable": [
+										{
+											"key": "vendor_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customer Panel",
+			"item": [
+				{
+					"name": "Authentication",
+					"item": [
+						{
+							"name": "SignUp",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{AUTH_TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customer_name\": \"Test Doe\",\r\n    \"mobile\": 9876543210,\r\n    \"customer_country\": \"USA\",\r\n    \"gender\": \"Male\",\r\n    \"customer_address\": {\r\n      \"street\": \"123 Main St\",\r\n      \"city\": \"New York\",\r\n      \"state\": \"NY\",\r\n      \"zipcode\": \"10001\"\r\n    },\r\n    \"customer_email\": \"johndoe@example.com\",\r\n    \"customer_password\": \"hashed_password_123\"\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/signup",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\"customer_email\": \"johndoe@example.com\",\r\n    \"customer_password\": \"hashed_password_123\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/v1/customers/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"v1",
+										"customers",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mobile signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"mobile\": \"8903115165\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/signup",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mobile Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mobile\": \"7488406481\",\r\n    \"otp\": \"4359\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/Login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"Login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Insert Customers",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customer_name\": \"ajay\",\r\n    \"mobile\": \"8903115165\",\r\n    \"customer_country\": \"india\",\r\n    \"gender\": \"Male\",\r\n    \"customer_address\": \"123 Street, City\",\r\n    \"customer_email\": \"chandan99file@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/insert",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"insert"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Customers",
+					"item": [
+						{
+							"name": "Get Customer",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/getcustomers",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"getcustomers"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/getcustomers",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"getcustomers"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "561"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"231-AbS2TUlno/j10mav/yx35ZiCAzA\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:33:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"customer_id\": 2,\n        \"customer_name\": \"John\",\n        \"mobile\": \"9876543210\",\n        \"customer_country\": \"USA\",\n        \"gender\": \"Male\",\n        \"customer_address\": {\n            \"city\": \"New\",\n            \"state\": \"NY\",\n            \"street\": \"123 Main St\",\n            \"zipcode\": \"10001\"\n        },\n        \"customer_email\": \"johndoe@example.com\",\n        \"customer_password\": \"$2b$10$8EkqYLtpdXDvuc1ebfv52.MI8L0TAg/HmFXCY3h0MAz0C6eaYmMcO\"\n    },\n    {\n        \"customer_id\": 3,\n        \"customer_name\": \"chandan\",\n        \"mobile\": null,\n        \"customer_country\": null,\n        \"gender\": null,\n        \"customer_address\": null,\n        \"customer_email\": \"chandan99file@gmail.com\",\n        \"customer_password\": \"$2b$10$ra2ThSULm31lJEXPbLV6UOfYDzo2tPrp13545yyeG1kOLMsI2aRXC\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Delete Customer",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/deletecustomers/:customer_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"deletecustomers",
+										":customer_id"
+									],
+									"variable": [
+										{
+											"key": "customer_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/deletecustomers/:customer_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"deletecustomers",
+												":customer_id"
+											],
+											"variable": [
+												{
+													"key": "customer_id",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "30"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1e-1/FiBpMM1XKXxweaDiweHU+uaCM\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:41:04 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Resource deleted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Customer",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"customer_id\": 2,\r\n    \"customer_name\": \"test Doe\",\r\n    \"mobile\": 9876543210,\r\n    \"customer_country\": \"USA\",\r\n    \"gender\": \"Male\",\r\n    \"customer_address\": {\r\n      \"street\": \"123 Main St\",\r\n      \"city\": \"New York\",\r\n      \"state\": \"NY\",\r\n      \"zipcode\": \"10001\"\r\n    },\r\n    \"customer_email\": \"johndoe@example.com\",\r\n    \"customer_password\": \"hashed_password_123\"\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/updatecustomer",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"updatecustomer"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"customer_id\": 2,\r\n    \"customer_name\": \"test Doe\",\r\n    \"mobile\": 9876543210,\r\n    \"customer_country\": \"USA\",\r\n    \"gender\": \"Male\",\r\n    \"customer_address\": {\r\n      \"street\": \"123 Main St\",\r\n      \"city\": \"New York\",\r\n      \"state\": \"NY\",\r\n      \"zipcode\": \"10001\"\r\n    },\r\n    \"customer_email\": \"johndoe@example.com\",\r\n    \"customer_password\": \"hashed_password_123\"\r\n  }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/updatecustomer",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"updatecustomer"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:42:56 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Service booking",
+					"item": [
+						{
+							"name": "Get Booked Service Requests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/getcustomerservicedetails",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"getcustomerservicedetails"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/getservicebooking",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"getservicebooking"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "415"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"19f-LLWCQcNucgJv4AIJhdkCwSnEmTI\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:48:49 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"booking_id\": 5,\n        \"service_cat_id\": 1,\n        \"customer_id\": 2,\n        \"is_booked\": 1,\n        \"is_completed\": 0,\n        \"is_cancelled\": 0,\n        \"cancelled_reason\": null,\n        \"vendor_id\": 2\n    },\n    {\n        \"booking_id\": 6,\n        \"service_cat_id\": 1,\n        \"customer_id\": 2,\n        \"is_booked\": 1,\n        \"is_completed\": 0,\n        \"is_cancelled\": 0,\n        \"cancelled_reason\": null,\n        \"vendor_id\": 2\n    },\n    {\n        \"booking_id\": 7,\n        \"service_cat_id\": 5,\n        \"customer_id\": 2,\n        \"is_booked\": 0,\n        \"is_completed\": 0,\n        \"is_cancelled\": 1,\n        \"cancelled_reason\": \"NO\",\n        \"vendor_id\": 2\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Insert Service Booking",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"service_cat_id\": 2,\r\n    \"customer_id\": 2\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/insertservicebooking",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"insertservicebooking"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"service_cat_id\": 1,\r\n    \"customer_id\": 2,\r\n    \"is_booked\": true,\r\n    \"is_completed\": false,\r\n    \"is_cancelled\": false,\r\n    \"cancelled_reason\": null\r\n  }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/insertservicebooking",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"insertservicebooking"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:50:20 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Service Booking",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{    \"booking_id\": 5,\r\n    \"service_cat_id\": 1,\r\n    \"customer_id\": 2,\r\n    \"is_booked\": true,\r\n    \"is_completed\": false,\r\n    \"is_cancelled\": false,\r\n    \"cancelled_reason\": null\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/updateservicebooking",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"updateservicebooking"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{    \"booking_id\": 5,\r\n    \"service_cat_id\": 1,\r\n    \"customer_id\": 2,\r\n    \"is_booked\": false,\r\n    \"is_completed\": false,\r\n    \"is_cancelled\": false,\r\n    \"cancelled_reason\": null\r\n  }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/updateservicebooking",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"updateservicebooking"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "31"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1f-p1GaKCFn3ieRUaDLibEYOD9GM4A\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:52:26 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete service Booking",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/deleteservicebooking/:booking_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"deleteservicebooking",
+										":booking_id"
+									],
+									"variable": [
+										{
+											"key": "booking_id",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/deleteservicebooking/:booking_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"deleteservicebooking",
+												":booking_id"
+											],
+											"variable": [
+												{
+													"key": "booking_id",
+													"value": "5"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "42"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2a-gVcEEnK8+lEWo3IHFtPL/zRKQgM\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:54:23 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Booking deleted successfully\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Complaints",
+					"item": [
+						{
+							"name": "Insert Complaints",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cust_comp_desc\": \"not order\",\r\n    \"cust_comp_date\": \"2025-03-24 10:15:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/insertCUSTOMERCOMPLAINTS",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"insertCUSTOMERCOMPLAINTS"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cust_comp_desc\": \"not order\",\r\n    \"cust_comp_date\": \"2025-03-24 10:15:00\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/insertCUSTOMERCOMPLAINTS",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"insertCUSTOMERCOMPLAINTS"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "43"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2b-y1Sb7hkPOr8gnm+rYrkkU4d/2OE\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:58:51 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \" complaints Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Complaints",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/getCUSTOMERCOMPLAINTS",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"getCUSTOMERCOMPLAINTS"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/getCUSTOMERCOMPLAINTS",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"getCUSTOMERCOMPLAINTS"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "357"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"165-+2WdGpapn2E6rLZm05ZiaS3iXP0\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 10:59:34 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"cust_comp_id\": 2,\n        \"customer_id\": 2,\n        \"cust_comp_desc\": \"not  delivery of order\",\n        \"cust_comp_date\": \"2025-03-21T04:45:00.000Z\"\n    },\n    {\n        \"cust_comp_id\": 3,\n        \"customer_id\": null,\n        \"cust_comp_desc\": \"not  delivery of order\",\n        \"cust_comp_date\": \"2025-03-24T04:45:00.000Z\"\n    },\n    {\n        \"cust_comp_id\": 4,\n        \"customer_id\": null,\n        \"cust_comp_desc\": \"not order\",\n        \"cust_comp_date\": \"2025-03-24T04:45:00.000Z\"\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "Update Complaints",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cust_comp_id\": 1,\r\n    \"cust_comp_desc\": \"first of order\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/updateCUSTOMERCOMPLAINTS",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"updateCUSTOMERCOMPLAINTS"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cust_comp_id\": 1,\r\n    \"cust_comp_desc\": \"first of order\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/updateCUSTOMERCOMPLAINTS",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"updateCUSTOMERCOMPLAINTS"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "43"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2b-y1Sb7hkPOr8gnm+rYrkkU4d/2OE\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 11:05:38 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \" complaints Request submitted\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Complaints",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/deleteCUSTOMERCOMPLAINTS/:cust_comp_id",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"deleteCUSTOMERCOMPLAINTS",
+										":cust_comp_id"
+									],
+									"variable": [
+										{
+											"key": "cust_comp_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success Response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_URL}}/customers/data/deleteCUSTOMERCOMPLAINTS/:cust_comp_id",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"customers",
+												"data",
+												"deleteCUSTOMERCOMPLAINTS",
+												":cust_comp_id"
+											],
+											"variable": [
+												{
+													"key": "cust_comp_id",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "45"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2d-xTQtQrmNW3N2MnbrtZEyyp3MFEg\""
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 24 Mar 2025 11:07:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"complaints deleted successfully\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Booking Order Payment",
+					"item": [
+						{
+							"name": "initiate booking",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"booking_id\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/initiate",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verify payment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"order_id\": \"order_QEZaVmlOfodmin\",\r\n    \"payment_id\": \"pay_I1YkXJZqVkLM21\",  \r\n    \"signature\": \"testsignature123\",   \r\n    \"booking_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/customers/verify",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get payment details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/customers/data/paymentdetails/2",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"customers",
+										"data",
+										"paymentdetails",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Vendor Mobile Panel",
+			"item": []
+		},
+		{
+			"name": "User Mobile Panel",
+			"item": []
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:3000/api/v1",
+			"type": "default"
+		}
+	]
+}
