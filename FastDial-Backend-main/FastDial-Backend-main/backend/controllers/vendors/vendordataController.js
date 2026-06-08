@@ -3,10 +3,7 @@ const AppError = require("../../utils/appError");
 const catchAsyncError = require("../../utils/catchAsyncError");
 const getData = require("../../database/dbquerieshandlers");
 
-const {
-  generateInsertStatement,
-  generateUpdateStatement,
-} = require("../../database/sqlStatementGenarator");
+const { sql } = require("../../database/sqlStatementGenarator");
 
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
@@ -312,8 +309,7 @@ exports.deletevendors = catchAsyncError(async (req, res, next) => {
   if (!id) {
     return res.status(403).send({ message: "Please pass id to delete" });
   }
-  const statement = `DELETE FROM VENDORS WHERE vendor_id = ?`;
-  await db(statement, id);
+  await sql.delete("VENDORS", { vendor_id: id });
   res.status(201).send({ message: "Resource deleted" });
 });
 
@@ -333,8 +329,7 @@ exports.deletevendorswithoutid = catchAsyncError(async (req, res, next) => {
   }
 
   // Delete vendor
-  const statement = `DELETE FROM VENDORS WHERE vendor_id = ?`;
-  await db(statement, [vendorId]);
+  await sql.delete("VENDORS", { vendor_id: vendorId });
 
   res.status(200).json({ message: "Vendor deleted successfully" });
 });
@@ -377,12 +372,12 @@ exports.getvendorscomplaints = catchAsyncError(async (req, res, next) => {
 });
 
 exports.insertvendorscomplaints = catchAsyncError(async (req, res, next) => {
-  await generateInsertStatement("VENDORSCOMPLAINTS", req);
+  await sql.create("VENDORSCOMPLAINTS", req.body);
   res.status(200).send({ message: "Request submitted" });
 });
 
 exports.updatevendorscomplaints = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("VENDORSCOMPLAINTS", req, "vend_comp_id");
+  await sql.update("VENDORSCOMPLAINTS", req.body, { vend_comp_id: req.params.vend_comp_id || req.body.vend_comp_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -402,8 +397,7 @@ exports.deletevendorscomplaints = catchAsyncError(async (req, res, next) => {
     return res.status(404).json({ message: "Complaint not found" });
   }
 
-  const deleteQuery = `DELETE FROM VENDORSCOMPLAINTS WHERE vend_comp_id = ?`;
-  await db(deleteQuery, [vend_comp_id]);
+  await sql.delete("VENDORSCOMPLAINTS", { vend_comp_id });
 
   res.status(200).json({ message: "Complaint deleted successfully" });
 });
@@ -872,7 +866,7 @@ exports.getVendorEarnings = async (req, res) => {
 };
 
 exports.updateservicebooking = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SERVICEBOOKINGS", req, "booking_id");
+  await sql.update("SERVICEBOOKINGS", req.body, { booking_id: req.params.booking_id || req.body.booking_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -881,7 +875,7 @@ exports.getSUBSCRIPTIONS = catchAsyncError(async (req, res, next) => {
 });
 
 exports.updateSUBSCRIPTIONS = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SUBSCRIPTIONS", req, "subscription_id");
+  await sql.update("SUBSCRIPTIONS", req.body, { subscription_id: req.params.subscription_id || req.body.subscription_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -1151,7 +1145,7 @@ exports.getVENDOR_SERVICES = catchAsyncError(async (req, res, next) => {
 });
 
 exports.updateVENDOR_SERVICES = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("VENDOR_SERVICES", req, "id");
+  await sql.update("VENDOR_SERVICES", req.body, { id: req.params.id || req.body.id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -1162,13 +1156,12 @@ exports.deleteVENDOR_SERVICES = catchAsyncError(async (req, res, next) => {
   if (!id) {
     return res.status(403).send({ message: "Please pass id to delete" });
   }
-  const statement = `DELETE FROM VENDOR_SERVICES WHERE id = ?`;
-  await db(statement, id);
+  await sql.delete("VENDOR_SERVICES", { id });
   res.status(201).send({ message: "Resource deleted" });
 });
 
 exports.updateSERVICES = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SERVICES", req, "service_id");
+  await sql.update("SERVICES", req.body, { service_id: req.params.service_id || req.body.service_id });
   res.status(200).send({ message: "Request submitted" });
 });
 

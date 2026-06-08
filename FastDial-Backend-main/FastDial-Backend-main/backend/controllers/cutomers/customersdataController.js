@@ -5,10 +5,7 @@ const getData = require("../../database/dbquerieshandlers");
 const uploadfile = require("../../middlewares/s3bucket");
 
 const crypto = require("crypto");
-const {
-  generateInsertStatement,
-  generateUpdateStatement,
-} = require("../../database/sqlStatementGenarator");
+const { sql } = require("../../database/sqlStatementGenarator");
 const { getIO } = require("../../socket/socketServer");
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
@@ -135,7 +132,7 @@ exports.deletecustomer = catchAsyncError(async (req, res, next) => {
 });
 
 exports.updatecustomers = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("CUSTOMERS", req, "customer_id");
+  await sql.update("CUSTOMERS", req.body, { customer_id: req.params.customer_id || req.body.customer_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -211,7 +208,7 @@ exports.insertservicebooking = async (req, res) => {
 };
 
 exports.updateservicebooking = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SERVICEBOOKINGS", req, "booking_id");
+  await sql.update("SERVICEBOOKINGS", req.body, { booking_id: req.params.booking_id || req.body.booking_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -231,8 +228,7 @@ exports.deleteservicebooking = catchAsyncError(async (req, res, next) => {
     return res.status(404).json({ message: "Service Booking not found" });
   }
 
-  const deleteQuery = `DELETE FROM SERVICEBOOKINGS WHERE booking_id = ?`;
-  await db(deleteQuery, [id]);
+  await sql.delete("SERVICEBOOKINGS", { booking_id: id });
 
   res.status(200).json({ message: "Booking deleted successfully" });
 });
@@ -242,12 +238,12 @@ exports.getCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
 });
 
 exports.insertCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
-  await generateInsertStatement("CUSTOMERCOMPLAINTS", req);
+  await sql.create("CUSTOMERCOMPLAINTS", req.body);
   res.status(200).send({ message: " complaints Request submitted" });
 });
 
 exports.updateCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("CUSTOMERCOMPLAINTS", req, "cust_comp_id");
+  await sql.update("CUSTOMERCOMPLAINTS", req.body, { cust_comp_id: req.params.cust_comp_id || req.body.cust_comp_id });
   res.status(200).send({ message: " complaints Request submitted" });
 });
 
@@ -267,8 +263,7 @@ exports.deleteCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
     return res.status(404).json({ message: "complaints not found" });
   }
 
-  const deleteQuery = `DELETE FROM CUSTOMERCOMPLAINTS WHERE cust_comp_id = ?`;
-  await db(deleteQuery, [id]);
+  await sql.delete("CUSTOMERCOMPLAINTS", { cust_comp_id: id });
 
   res.status(200).json({ message: "complaints deleted successfully" });
 });
@@ -753,7 +748,7 @@ exports.updateSLIDER_IMAGES = catchAsyncError(async (req, res) => {
     req.body.image_path = imageUrl;
   }
 
-  await generateUpdateStatement("SLIDER_IMAGES", req, "id");
+  await sql.update("SLIDER_IMAGES", req.body, { id: req.params.id || req.body.id });
   res.status(200).json({ message: "Slider image updated successfully" });
 });
 
@@ -891,9 +886,8 @@ exports.deleteSLIDER_IMAGES = catchAsyncError(async (req, res) => {
   }
 
   // Delete the record of the slider image from the database
-  const deleteQuery = `DELETE FROM SLIDER_IMAGES WHERE id = ?`;
   try {
-    await db(deleteQuery, [id]);
+    await sql.delete("SLIDER_IMAGES", { id });
   } catch (error) {
     console.error("Error deleting image record from database:", error);
     return res
@@ -1038,13 +1032,13 @@ exports.getREVIEWS = catchAsyncError(async (req, res, next) => {
 
 // Insert a new review
 exports.insertREVIEWS = catchAsyncError(async (req, res, next) => {
-  await generateInsertStatement("REVIEWS", req);
+  await sql.create("REVIEWS", req.body);
   res.status(200).json({ message: "Review added successfully" });
 });
 
 // Update an existing review
 exports.updateREVIEWS = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("REVIEWS", req, "review_id");
+  await sql.update("REVIEWS", req.body, { review_id: req.params.review_id || req.body.review_id });
   res.status(200).json({ message: "Review updated successfully" });
 });
 
@@ -1056,8 +1050,7 @@ exports.deleteREVIEWS = catchAsyncError(async (req, res, next) => {
     return res.status(400).json({ message: "Please pass review_id to delete" });
   }
 
-  const statement = `DELETE FROM REVIEWS WHERE review_id = ?`;
-  await db(statement, [review_id]);
+  await sql.delete("REVIEWS", { review_id });
   res.status(200).json({ message: "Review deleted successfully" });
 });
 

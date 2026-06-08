@@ -3,22 +3,19 @@ const AppError = require("../../utils/appError");
 const catchAsyncError = require("../../utils/catchAsyncError");
 const getData = require("../../database/dbquerieshandlers");
 const bcrypt = require("bcrypt");
-const {
-  generateInsertStatement,
-  generateUpdateStatement,
-} = require("../../database/sqlStatementGenarator");
+const { sql } = require("../../database/sqlStatementGenarator");
 
 exports.getSERVICE_CATEGORIES = catchAsyncError(async (req, res, next) => {
   getData(req, res, "SERVICE_CATEGORIES");
 });
 
 exports.insertSERVICE_CATEGORIES = catchAsyncError(async (req, res, next) => {
-  await generateInsertStatement("SERVICE_CATEGORIES", req);
+  await sql.create("SERVICE_CATEGORIES", req.body);
   res.status(200).send({ message: "Request submitted" });
 });
 
 exports.updateSERVICE_CATEGORIES = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SERVICE_CATEGORIES", req, "service_cat_id");
+  await sql.update("SERVICE_CATEGORIES", req.body, { service_cat_id: req.params.service_cat_id || req.body.service_cat_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -27,8 +24,7 @@ exports.deleteSERVICE_CATEGORIES = catchAsyncError(async (req, res, next) => {
   if (!id) {
     return res.status(403).send({ message: "Please pass id to delete" });
   }
-  const statement = `DELETE FROM SERVICE_CATEGORIES WHERE  service_cat_id  = ?`;
-  await db(statement, id);
+  await sql.delete("SERVICE_CATEGORIES", { service_cat_id: id });
   res.status(201).send({ message: "Resource deleted" });
 });
 
@@ -38,13 +34,13 @@ exports.getSERVICES = catchAsyncError(async (req, res, next) => {
 
 // Insert a new SERVICE
 exports.insertSERVICES = catchAsyncError(async (req, res, next) => {
-  await generateInsertStatement("SERVICES", req);
+  await sql.create("SERVICES", req.body);
   res.status(200).send({ message: "Request submitted" });
 });
 
 // Update an existing SERVICE
 exports.updateSERVICES = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SERVICES", req, "service_id");
+  await sql.update("SERVICES", req.body, { service_id: req.params.service_id || req.body.service_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -54,8 +50,7 @@ exports.deleteSERVICES = catchAsyncError(async (req, res, next) => {
   if (!id) {
     return res.status(403).send({ message: "Please pass id to delete" });
   }
-  const statement = `DELETE FROM SERVICES WHERE service_id = ?`;
-  await db(statement, id);
+  await sql.delete("SERVICES", { service_id: id });
   res.status(201).send({ message: "Resource deleted" });
 });
 
@@ -136,7 +131,7 @@ exports.getcustomerservice = catchAsyncError(async (req, res, next) => {
 
 // update service booking->
 exports.updateservicebooking = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SERVICEBOOKINGS", req, "booking_id");
+  await sql.update("SERVICEBOOKINGS", req.body, { booking_id: req.params.booking_id || req.body.booking_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -145,12 +140,12 @@ exports.getSUBSCRIPTIONS = catchAsyncError(async (req, res, next) => {
 });
 
 exports.insertSUBSCRIPTIONS = catchAsyncError(async (req, res, next) => {
-  await generateInsertStatement("SUBSCRIPTIONS", req);
+  await sql.create("SUBSCRIPTIONS", req.body);
   res.status(200).send({ message: "Request submitted" });
 });
 
 exports.updateSUBSCRIPTIONS = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SUBSCRIPTIONS", req, "subscription_id");
+  await sql.update("SUBSCRIPTIONS", req.body, { subscription_id: req.params.subscription_id || req.body.subscription_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
@@ -159,8 +154,7 @@ exports.deleteSUBSCRIPTIONS = catchAsyncError(async (req, res, next) => {
   if (!id) {
     return res.status(403).send({ message: "Please pass id to delete" });
   }
-  const statement = `DELETE FROM SUBSCRIPTIONS WHERE  subscription_id  = ?`;
-  await db(statement, id);
+  await sql.delete("SUBSCRIPTIONS", { subscription_id: id });
   res.status(201).send({ message: "Resource deleted" });
 });
 
@@ -173,7 +167,7 @@ exports.getCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
 });
 
 exports.updatevendors = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("VENDORS", req, "vendor_id");
+  await sql.update("VENDORS", req.body, { vendor_id: req.params.vendor_id || req.body.vendor_id });
   res.status(200).send({ message: "Request submitted" });
 });
 
