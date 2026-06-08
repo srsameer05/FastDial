@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: fastdial_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: your_mysql_password
+      MYSQL_DATABASE: fastdial
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./FastDial-Backend-main/FastDial-Backend-main/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build:
+      context: ./FastDial-Backend-main/FastDial-Backend-main/backend
+      dockerfile: Dockerfile
+    container_name: fastdial_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: your_mysql_password
+      DB_NAME: fastdial
+    depends_on:
+      - db
+
+  user_vendor_frontend:
+    build:
+      context: ./Fast-Dial-main/Fast-Dial-main/user_vendor_frontend
+      dockerfile: dockerfile
+    container_name: fastdial_user_frontend
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  admin_frontend:
+    build:
+      context: ./Fast-Dial-main/Fast-Dial-main/admin_frontend
+      dockerfile: dockerfile
+    container_name: fastdial_admin_frontend
+    restart: always
+    ports:
+      - "5174:80"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

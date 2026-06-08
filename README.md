@@ -133,6 +133,25 @@ To run FastDial locally, you will need **Node.js** (v16+) and **MySQL** installe
 
 ---
 
+## 🐳 Docker Deployment Setup (Recommended)
+
+FastDial is fully Dockerized for simple, single-command deployment.
+
+1. Ensure [Docker](https://www.docker.com/) and Docker Compose are installed.
+2. In the root directory (where `docker-compose.yml` is located), run:
+   ```bash
+   docker-compose up -d --build
+   ```
+3. Docker will automatically:
+   - Initialize the **MySQL database** with the `init.sql` schema.
+   - Build and start the **Node.js Backend API** on `http://localhost:3000`.
+   - Build and start the **User/Vendor Frontend** on `http://localhost:5173`.
+   - Build and start the **Admin Dashboard** on `http://localhost:5174`.
+
+> **Note**: To view container logs, run `docker-compose logs -f`. To shut down the environment, run `docker-compose down`.
+
+---
+
 ## 📂 Project Structure
 
 ```text
