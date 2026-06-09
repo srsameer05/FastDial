@@ -1,4 +1,4 @@
- import React, { useState } from 'react';
+ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fastdialLogo from '../../assets/Quick Serve 5.png';
 import mobileImage1 from '../../assets/Mobile.png';
@@ -7,6 +7,29 @@ import mobileImage2 from '../../assets/Mobile2.svg';
 const CommonLanding = () => {
   const navigate = useNavigate();
   const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
+  const lines = ['MULTIPLE SERVICES,', 'ONE APP FOR', 'EVERYDAY NEEDS'];
+  const [currentLine, setCurrentLine] = useState(0);
+  const [displayedLines, setDisplayedLines] = useState(['', '', '']);
+
+  useEffect(() => {
+    let interval = null;
+    if (currentLine < lines.length) {
+      let index = 0;
+      interval = setInterval(() => {
+        setDisplayedLines(prev => {
+          const next = [...prev];
+          next[currentLine] += lines[currentLine][index];
+          return next;
+        });
+        index += 1;
+        if (index >= lines[currentLine].length) {
+          clearInterval(interval);
+          setTimeout(() => setCurrentLine(c => c + 1), 400);
+        }
+      }, 45);
+    }
+    return () => clearInterval(interval);
+  }, [currentLine]);
 
   return (
     <>
@@ -31,14 +54,46 @@ const CommonLanding = () => {
           transform: scale(0.95);
         }
         .fade-in {
-          animation: fadeIn 0.3s ease-in;
+          animation: fadeIn 0.35s ease-in;
+        }
+        .floating {
+          animation: float 6s ease-in-out infinite;
+          transform-origin: center;
+        }
+        .typing-line {
+          display: block;
+          line-height: 1;
+        }
+        .typing-line .caret {
+          display: inline-block;
+          width: 2px;
+          height: 1.05em;
+          margin-left: 6px;
+          background: rgba(255, 255, 255, 0.95);
+          animation: blink 1s steps(2, start) infinite;
+          vertical-align: -2px;
+        }
+        @keyframes blink {
+          50% {
+            opacity: 0;
+          }
+        }
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) rotate(-1deg);
+          }
+          50% {
+            transform: translateY(-12px) rotate(1deg);
+          }
         }
         @keyframes fadeIn {
           from {
             opacity: 0;
+            transform: translateY(10px);
           }
           to {
             opacity: 1;
+            transform: translateY(0);
           }
         }
       `}</style>
@@ -104,8 +159,10 @@ const CommonLanding = () => {
         {/* Main Content (Blue Section) */}
         <div className="w-[90%] max-w-5xl mx-auto pt-4 sm:pt-6 pb-6 sm:pb-8 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
           <div className="max-w-lg text-center md:text-left">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
-              MULTIPLE SERVICES, ONE APP QUICK SERVE HAS YOU COVERED
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+              <span className="typing-line text-4xl sm:text-5xl md:text-6xl">{displayedLines[0]}{currentLine === 0 && <span className="caret" />}</span>
+              <span className="typing-line text-4xl sm:text-5xl md:text-6xl">{displayedLines[1]}{currentLine === 1 && <span className="caret" />}</span>
+              <span className="typing-line text-4xl sm:text-5xl md:text-6xl">{displayedLines[2]}{currentLine === 2 && <span className="caret" />}</span>
             </h1>
             <p className="text-white text-base sm:text-lg mb-6 sm:mb-8">
               Find multiple services effortlessly with QUICK SERVE—your one-stop solution for quick, reliable, and professional assistance at your fingertips.
@@ -122,7 +179,7 @@ const CommonLanding = () => {
             <img
               src={mobileImage1}
               alt="FastDial App on Phone"
-              className="w-full h-auto md:w-[140%] md:max-w-[1000px]"
+              className="w-full h-auto md:w-[140%] md:max-w-[1000px] floating fade-in"
             />
           </div>
         </div>
