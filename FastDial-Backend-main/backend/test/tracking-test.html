@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location Tracking Test</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfGx2ILRU7-WE1AyzbUwd7gr-IYn491Do&libraries=geometry,places"></script>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;    
+            gap: 20px;
+            padding: 20px;
+        }
+        .panels {
+            display: flex;
+            gap: 20px;
+        }
+        .panel {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            width: 45%;
+        }
+        .log {
+            height: 200px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+        input {
+            margin: 5px;
+            padding: 5px;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .marker-label {
+            color: white;
+            background-color: #4285F4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="map"></div>
+        <div style="margin-bottom: 10px;">
+            <button onclick="testRouteCalculation()" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                Test Street Route
+            </button>
+        </div>
+        <div class="panels">
+            <!-- Customer Panel -->
+            <div class="panel">
+                <h2>Customer Panel</h2>
+                <div>
+                    <input type="text" id="customerToken" placeholder="Customer JWT Token">
+                    <input type="text" id="customerBookingId" placeholder="Booking ID">
+                    <button onclick="startCustomerTracking()">Start Tracking</button>
+                    <button onclick="stopCustomerTracking()">Stop Tracking</button>
+                </div>
+                <div>
+                    <h3>Location Updates</h3>
+                    <div id="customerLog" class="log"></div>
+                </div>
+            </div>
+
+            <!-- Vendor Panel -->
+            <div class="panel">
+                <h2>Vendor Panel</h2>
+                <div>
+                    <input type="text" id="vendorToken" placeholder="Vendor JWT Token">
+                    <input type="text" id="vendorBookingId" placeholder="Booking ID">
+                    <button onclick="startVendorTracking()">Start Tracking</button>
+                    <button onclick="stopVendorTracking()">Stop Tracking</button>
+                </div>
+                <div>
+                    <h3>Location Updates</h3>
+                    <div id="vendorLog" class="log"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let customerSocket = null;
+        let vendorSocket = null;
+        let customerTrackingInterval = null;
+        let vendorTrackingInterval = null;
+        let customerWatchId = null;
+        let vendorWatchId = null;
+        let map = null;
+        let customerMarker = null;
+        let vendorMarker = null;
+        let customerPath = [];
+        let vendorPath = [];
+        let connectionLine = null; // Add polyline for connection
+        let directionsService = null;
+        let directionsRenderer = null;
+        let streetPath = null; // New street-like path
+
+        // Initialize map
+        function initMap() {
+            const defaultLocation = { lat: 13.06458360, lng: 76.504599};
+            const defaultLocationc = { lat: 14.06458360, lng: 76.504599};
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: defaultLocation,
+            });
+
+            // Custom marker icons
+            const customerIcon = {
+                url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                scaledSize: new google.maps.Size(40, 40),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(20, 20)
+            };
+
+            const vendorIcon = {
+                url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                scaledSize: new google.maps.Size(40, 40),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(20, 20)
+            };
+
+            // Initialize markers with custom icons
+            customerMarker = new google.maps.Marker({
+                position: defaultLocationc,
+                map: map,
+                title: 'Customer',
+                icon: customerIcon,
+                label: {
+                    text: 'C',
+                    color: '#ffffff',
+                    fontSize: '16px',
+                    fontWeight: 'bold'
+                }
+            });
+
+            vendorMarker = new google.maps.Marker({
+                position: defaultLocation,
+                map: map,
+                title: 'Vendor',
+                icon: vendorIcon,
+                label: {
+                    text: 'V',
+                    color: '#ffffff',
+                    fontSize: '16px',
+                    fontWeight: 'bold'
+                }
+            });
+
+            // Create initial street-like path
+            createStreetPath(defaultLocationc, defaultLocation);
+
+            // Add info windows
+            const customerInfo = new google.maps.InfoWindow({
+                content: '<div style="padding: 10px;"><strong>Customer</strong></div>'
+            });
+
+            const vendorInfo = new google.maps.InfoWindow({
+                content: '<div style="padding: 10px;"><strong>Vendor</strong></div>'
+            });
+
+            // Add click listeners to show info windows
+            customerMarker.addListener('click', () => {
+                customerInfo.open(map, customerMarker);
+            });
+
+            vendorMarker.addListener('click', () => {
+                vendorInfo.open(map, vendorMarker);
+            });
+        }
+
+        // Initialize map when page loads
+        window.onload = initMap;
+
+        // Get actual GPS location with improved accuracy
+        function getCurrentLocation() {
+            return new Promise((resolve, reject) => {
+                if (!navigator.geolocation) {
+                    reject(new Error('Geolocation is not supported by your browser'));
+                    return;
+                }
+
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 30000,  // Increased timeout for better accuracy
+                    maximumAge: 0
+                };
+
+                // First attempt to get a quick fix
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        // If accuracy is poor, try to get a better fix
+                        if (position.coords.accuracy > 20) {  // Reduced threshold for better accuracy
+                            console.log('Initial accuracy poor:', position.coords.accuracy, 'meters. Trying to get better fix...');
+                            
+                            // Try to get a better fix with longer timeout
+                            const betterOptions = {
+                                enableHighAccuracy: true,
+                                timeout: 30000,
+                                maximumAge: 0
+                            };
+
+                            navigator.geolocation.getCurrentPosition(
+                                (betterPosition) => {
+                                    console.log('Better fix accuracy:', betterPosition.coords.accuracy, 'meters');
+                                    resolve({
+                                        lat: betterPosition.coords.latitude,
+                                        lng: betterPosition.coords.longitude,
+                                        accuracy: betterPosition.coords.accuracy
+                                    });
+                                },
+                                (error) => {
+                                    console.warn('Could not get better fix:', error.message);
+                                    // Fall back to initial position
+                                    resolve({
+                                        lat: position.coords.latitude,
+                                        lng: position.coords.longitude,
+                                        accuracy: position.coords.accuracy
+                                    });
+                                },
+                                betterOptions
+                            );
+                        } else {
+                            console.log('Good initial accuracy:', position.coords.accuracy, 'meters');
+                            resolve({
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                                accuracy: position.coords.accuracy
+                            });
+                        }
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error.message);
+                        reject(error);
+                    },
+                    options
+                );
+            });
+        }
+
+        // Watch location with improved accuracy
+        function watchLocation(callback, errorCallback) {
+            if (!navigator.geolocation) {
+                errorCallback(new Error('Geolocation is not supported by your browser'));
+                return null;
+            }
+
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 30000,
+                maximumAge: 0
+            };
+
+            let lastPosition = null;
+            let lastAccuracy = Infinity;
+            let lastUpdateTime = 0;
+            const MIN_UPDATE_INTERVAL = 1000; // Minimum time between updates (1 second)
+
+            return navigator.geolocation.watchPosition(
+                (position) => {
+                    const currentTime = Date.now();
+                    const currentAccuracy = position.coords.accuracy;
+                    
+                    // Only update if:
+                    // 1. This is the first position
+                    // 2. The new position is more accurate
+                    // 3. The user has moved significantly (more than the accuracy margin)
+                    // 4. Enough time has passed since the last update
+                    if ((!lastPosition || 
+                        currentAccuracy < lastAccuracy || 
+                        calculateDistance(
+                            lastPosition.coords.latitude,
+                            lastPosition.coords.longitude,
+                            position.coords.latitude,
+                            position.coords.longitude
+                        ) > currentAccuracy) && 
+                        (currentTime - lastUpdateTime >= MIN_UPDATE_INTERVAL)) {
+                        
+                        console.log('Location update - Accuracy:', currentAccuracy, 'meters');
+                        lastPosition = position;
+                        lastAccuracy = currentAccuracy;
+                        lastUpdateTime = currentTime;
+
+                        callback({
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                            accuracy: currentAccuracy
+                        });
+                    }
+                },
+                (error) => {
+                    console.error('Error watching location:', error.message);
+                    errorCallback(error);
+                },
+                options
+            );
+        }
+
+        // Calculate distance between two points in meters
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; // Earth's radius in meters
+            const φ1 = lat1 * Math.PI/180;
+            const φ2 = lat2 * Math.PI/180;
+            const Δφ = (lat2-lat1) * Math.PI/180;
+            const Δλ = (lon2-lon1) * Math.PI/180;
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            return R * c; // Distance in meters
+        }
+
+        // Function to create a street-like path with waypoints
+        function createStreetPath(origin, destination) {
+            console.log('Creating street-like path from:', origin, 'to:', destination);
+            
+            // Clear existing path
+            if (streetPath) {
+                streetPath.setMap(null);
+            }
+            
+            // Calculate waypoints to simulate street routing
+            const waypoints = calculateWaypoints(origin, destination);
+            
+            // Create the path
+            streetPath = new google.maps.Polyline({
+                path: waypoints,
+                geodesic: false, // This makes it follow a more street-like path
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 3,
+                map: map
+            });
+            
+            // Calculate total distance
+            const totalDistance = calculatePathDistance(waypoints);
+            console.log('Street path created. Total distance:', (totalDistance / 1000).toFixed(2), 'km');
+            
+            // Add distance info to the path
+            streetPath.setOptions({
+                title: `Street Route: ${(totalDistance / 1000).toFixed(2)} km`
+            });
+        }
+        
+        // Function to calculate waypoints for street-like routing
+        function calculateWaypoints(origin, destination) {
+            const waypoints = [origin];
+            
+            // Calculate the difference
+            const latDiff = destination.lat - origin.lat;
+            const lngDiff = destination.lng - origin.lng;
+            
+            // Create intermediate points to simulate street turns
+            const numWaypoints = Math.max(3, Math.floor(Math.sqrt(latDiff * latDiff + lngDiff * lngDiff) * 100));
+            
+            for (let i = 1; i < numWaypoints; i++) {
+                const progress = i / numWaypoints;
+                
+                // Add some randomness to simulate street turns
+                const randomLat = (Math.random() - 0.5) * 0.001;
+                const randomLng = (Math.random() - 0.5) * 0.001;
+                
+                const waypoint = {
+                    lat: origin.lat + (latDiff * progress) + randomLat,
+                    lng: origin.lng + (lngDiff * progress) + randomLng
+                };
+                
+                waypoints.push(waypoint);
+            }
+            
+            waypoints.push(destination);
+            return waypoints;
+        }
+        
+        // Function to calculate total distance of a path
+        function calculatePathDistance(path) {
+            let totalDistance = 0;
+            for (let i = 1; i < path.length; i++) {
+                totalDistance += calculateDistance(
+                    path[i-1].lat,
+                    path[i-1].lng,
+                    path[i].lat,
+                    path[i].lng
+                );
+            }
+            return totalDistance;
+        }
+
+        // Function to update connection line
+        function updateConnectionLine() {
+            if (!customerMarker || !vendorMarker) {
+                return;
+            }
+
+            const customerPos = customerMarker.getPosition();
+            const vendorPos = vendorMarker.getPosition();
+
+            if (customerPos && vendorPos) {
+                const origin = { lat: customerPos.lat(), lng: customerPos.lng() };
+                const destination = { lat: vendorPos.lat(), lng: vendorPos.lng() };
+                
+                // Create street-like path between current positions
+                createStreetPath(origin, destination);
+            }
+        }
+
+        // Update marker with improved accuracy handling
+        function updateMarker(marker, position, type) {
+            if (!position || !position.lat || !position.lng) {
+                console.error('Invalid position data:', position);
+                return;
+            }
+
+            const newPosition = {
+                lat: parseFloat(position.lat),
+                lng: parseFloat(position.lng)
+            };
+
+            // Verify coordinates are within reasonable bounds
+            if (newPosition.lat < -90 || newPosition.lat > 90 || 
+                newPosition.lng < -180 || newPosition.lng > 180) {
+                console.error('Coordinates out of bounds:', newPosition);
+                return;
+            }
+
+            console.log(`Updating ${type} marker to:`, newPosition);
+
+            // Update marker position
+            marker.setPosition(newPosition);
+
+            // Update connection line after marker update
+            updateConnectionLine();
+
+            // Update info window with accuracy and timestamp
+            const accuracy = position.accuracy ? ` (Accuracy: ${Math.round(position.accuracy)}m)` : '';
+            const timestamp = new Date().toLocaleTimeString();
+            const infoContent = `<div style="padding: 10px;">
+                <strong>${type}</strong>${accuracy}<br>
+                Lat: ${newPosition.lat.toFixed(6)}<br>
+                Lng: ${newPosition.lng.toFixed(6)}<br>
+                Updated: ${timestamp}
+            </div>`;
+
+            // Remove existing click listeners
+            google.maps.event.clearListeners(marker, 'click');
+            
+            // Add new click listener
+            marker.addListener('click', () => {
+                const infoWindow = new google.maps.InfoWindow({
+                    content: infoContent
+                });
+                infoWindow.open(map, marker);
+            });
+
+            // Center map on marker if it's the first position
+            if (!marker.getMap()) {
+                map.setCenter(newPosition);
+                map.setZoom(18); // Zoom in closer for better visibility
+            }
+        }
+
+        // Start customer tracking
+        async function startCustomerTracking() {
+            const token = document.getElementById('customerToken').value;
+            const bookingId = document.getElementById('customerBookingId').value;
+            
+            if (!token || !bookingId) {
+                alert('Please enter both token and booking ID');
+                return;
+            }
+
+            try {
+                // Get initial location
+                const location = await getCurrentLocation();
+                console.log('Initial customer location:', location);
+                
+                // Send initial location to HTTP endpoint
+                const response = await axios.post('http://localhost:3000/api/v1/customers/tracking/start', {
+                    booking_id: bookingId,
+                    latitude: location.lat,
+                    longitude: location.lng
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.data.success) {
+                    // Initialize WebSocket connection
+                    customerSocket = io('http://localhost:3000', {
+                        auth: { token }
+                    });
+
+                    customerSocket.on('connect', () => {
+                        customerSocket.emit('join_booking', bookingId);
+                        logCustomerUpdate('Connected to tracking server');
+                    });
+
+                    customerSocket.on('location_update', (data) => {
+                        console.log('Received location update:', data);
+                        logCustomerUpdate(`Received location update: ${JSON.stringify(data)}`);
+                        if (data.user_type === 'vendor') {
+                            updateVendorMarker(data);
+                        }
+                    });
+
+                    // Start watching location
+                    customerWatchId = watchLocation(
+                        (location) => {
+                            console.log('Customer location update:', location);
+                            updateCustomerMarker(location);
+                            customerSocket.emit('update_location', {
+                                booking_id: bookingId,
+                                latitude: location.lat,
+                                longitude: location.lng
+                            });
+                        },
+                        (error) => {
+                            logCustomerUpdate(`Error: ${error.message}`);
+                        }
+                    );
+
+                    logCustomerUpdate('Started tracking');
+                } else {
+                    logCustomerUpdate('Failed to start tracking: ' + response.data.message);
+                }
+            } catch (error) {
+                logCustomerUpdate('Error: ' + error.message);
+            }
+        }
+
+        // Stop customer tracking
+        async function stopCustomerTracking() {
+            const token = document.getElementById('customerToken').value;
+            const bookingId = document.getElementById('customerBookingId').value;
+
+            try {
+                // Stop tracking via HTTP
+                if (token && bookingId) {
+                    await axios.post('http://localhost:3000/api/v1/customers/tracking/stop', {
+                        booking_id: bookingId
+                    }, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                }
+            } catch (error) {
+                console.error('Error stopping tracking:', error);
+            }
+
+            if (customerSocket) {
+                customerSocket.disconnect();
+                customerSocket = null;
+            }
+            if (customerWatchId) {
+                navigator.geolocation.clearWatch(customerWatchId);
+                customerWatchId = null;
+            }
+            logCustomerUpdate('Stopped tracking');
+        }
+
+        // Start vendor tracking
+        async function startVendorTracking() {
+            const token = document.getElementById('vendorToken').value;
+            const bookingId = document.getElementById('vendorBookingId').value;
+            
+            if (!token || !bookingId) {
+                alert('Please enter both token and booking ID');
+                return;
+            }
+
+            try {
+                // Get initial location
+                const location = await getCurrentLocation();
+                
+                // Send initial location to HTTP endpoint
+                const response = await axios.post('http://localhost:3000/api/v1/vendors/tracking/start', {
+                    booking_id: bookingId,
+                    latitude: location.lat,
+                    longitude: location.lng
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.data.success) {
+                    // Initialize WebSocket connection
+                    vendorSocket = io('http://localhost:3000', {
+                        auth: { token }
+                    });
+
+                    vendorSocket.on('connect', () => {
+                        vendorSocket.emit('join_booking', bookingId);
+                        logVendorUpdate('Connected to tracking server');
+                    });
+
+                    vendorSocket.on('location_update', (data) => {
+                        logVendorUpdate(`Received location update: ${JSON.stringify(data)}`);
+                        if (data.user_type === 'customer') {
+                            updateCustomerMarker(data);
+                        }
+                    });
+
+                    // Start watching location
+                    vendorWatchId = navigator.geolocation.watchPosition(
+                        (position) => {
+                            const location = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            updateVendorMarker(location);
+                            vendorSocket.emit('update_location', {
+                                booking_id: bookingId,
+                                latitude: location.lat,
+                                longitude: location.lng
+                            });
+                        },
+                        (error) => {
+                            logVendorUpdate(`Error: ${error.message}`);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 60000,
+                            maximumAge: 0
+                        }
+                    );
+
+                    logVendorUpdate('Started tracking');
+                } else {
+                    logVendorUpdate('Failed to start tracking: ' + response.data.message);
+                }
+            } catch (error) {
+                logVendorUpdate('Error: ' + error.message);
+            }
+        }
+
+        // Stop vendor tracking
+        async function stopVendorTracking() {
+            const token = document.getElementById('vendorToken').value;
+            const bookingId = document.getElementById('vendorBookingId').value;
+
+            try {
+                // Stop tracking via HTTP
+                if (token && bookingId) {
+                    await axios.post('http://localhost:3000/api/v1/vendors/tracking/stop', {
+                        booking_id: bookingId
+                    }, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                }
+            } catch (error) {
+                console.error('Error stopping tracking:', error);
+            }
+
+            if (vendorSocket) {
+                vendorSocket.disconnect();
+                vendorSocket = null;
+            }
+            if (vendorWatchId) {
+                navigator.geolocation.clearWatch(vendorWatchId);
+                vendorWatchId = null;
+            }
+            logVendorUpdate('Stopped tracking');
+        }
+
+        function logCustomerUpdate(message) {
+            const log = document.getElementById('customerLog');
+            const entry = document.createElement('div');
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function logVendorUpdate(message) {
+            const log = document.getElementById('vendorLog');
+            const entry = document.createElement('div');
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function updateCustomerMarker(position) {
+            if (!customerMarker) {
+                console.error('Customer marker not initialized');
+                return;
+            }
+            console.log('Updating customer marker with position:', position);
+            updateMarker(customerMarker, position, 'Customer');
+            logCustomerUpdate(`Updated position: ${position.lat.toFixed(6)}, ${position.lng.toFixed(6)}`);
+        }
+
+        function updateVendorMarker(position) {
+            if (!vendorMarker) {
+                console.error('Vendor marker not initialized');
+                return;
+            }
+            console.log('Updating vendor marker with position:', position);
+            updateMarker(vendorMarker, position, 'Vendor');
+            logVendorUpdate(`Updated position: ${position.lat.toFixed(6)}, ${position.lng.toFixed(6)}`);
+        }
+
+        function testRouteCalculation() {
+            console.log('=== TESTING STREET PATH ===');
+            
+            // Test with current marker positions
+            if (customerMarker && vendorMarker) {
+                const customerPos = customerMarker.getPosition();
+                const vendorPos = vendorMarker.getPosition();
+                
+                console.log('Customer marker position:', customerPos);
+                console.log('Vendor marker position:', vendorPos);
+                
+                if (customerPos && vendorPos) {
+                    const origin = { lat: customerPos.lat(), lng: customerPos.lng() };
+                    const destination = { lat: vendorPos.lat(), lng: vendorPos.lng() };
+                    
+                    console.log('Origin coordinates:', origin);
+                    console.log('Destination coordinates:', destination);
+                    
+                    // Create street-like path
+                    createStreetPath(origin, destination);
+                    
+                    alert('Street path created! Check the red line on the map.');
+                    
+                } else {
+                    console.error('Markers not positioned yet');
+                    alert('Markers not positioned yet');
+                }
+            } else {
+                console.error('Markers not initialized');
+                alert('Markers not initialized');
+            }
+        }
+    </script>
+</body>
+</html> 
