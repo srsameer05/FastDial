@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm install
+  build:
+    commands:
+      - docker build -t fast-dial-backend .
+      - docker tag fast-dial-backend:latest 890742591137.dkr.ecr.us-east-1.amazonaws.com/fast-dial-backend:latest
+  post_build:
+    commands:
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 890742591137.dkr.ecr.us-east-1.amazonaws.com
+      - docker push 890742591137.dkr.ecr.us-east-1.amazonaws.com/fast-dial-backend:latest
