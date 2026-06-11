@@ -143,11 +143,10 @@ const PaymentMethod = ({ bookingId, singleService, bookingType }) => {
       paymentVerificationError
     ) {
       alert(
-        `Payment error: ${
-          paymentInitiateBookNowError ||
-          paymentVerifyBookNowError ||
-          paymentInitiateError ||
-          paymentVerificationError
+        `Payment error: ${paymentInitiateBookNowError ||
+        paymentVerifyBookNowError ||
+        paymentInitiateError ||
+        paymentVerificationError
         }`
       );
       dispatch(
@@ -296,9 +295,9 @@ const PaymentMethod = ({ bookingId, singleService, bookingType }) => {
             }
           >
             {paymentInitiateLoading ||
-            paymentVerificationLoading ||
-            paymentInitiateBookNowLoading ||
-            paymentVerifyBookNowLoading
+              paymentVerificationLoading ||
+              paymentInitiateBookNowLoading ||
+              paymentVerifyBookNowLoading
               ? "Processing..."
               : "Continue"}
           </button>
@@ -461,8 +460,7 @@ const ReviewSummary = ({
       );
       if (!booking && !customerServiceDetailsError) {
         console.log(
-          `ReviewSummary: Booking ID ${bookingId} not found, retrying (${
-            retryCount + 1
+          `ReviewSummary: Booking ID ${bookingId} not found, retrying (${retryCount + 1
           }/${maxRetries})`
         );
         setTimeout(() => {
@@ -532,24 +530,24 @@ const ReviewSummary = ({
 
   const service = booking
     ? {
-        name: booking.service_name || "Unknown Service",
-        category: booking.service_category_name || "Unknown Category",
-        price: booking.service_price || "Contact for Price",
-        rating: 4.8,
-        image: booking.service_category_url || bigImg,
-        provider:
-          booking.vendor_name ||
-          booking.name_of_bussiness ||
-          "Unknown Provider",
-      }
+      name: booking.service_name || "Unknown Service",
+      category: booking.service_category_name || "Unknown Category",
+      price: booking.service_price || "Contact for Price",
+      rating: 4.8,
+      image: booking.service_category_url || bigImg,
+      provider:
+        booking.vendor_name ||
+        booking.name_of_bussiness ||
+        "Unknown Provider",
+    }
     : {
-        name: singleService?.service_name || "Unknown Service",
-        category: singleService?.service_name || "Unknown Category",
-        price: singleService?.service_price || "Contact for Price",
-        rating: singleService?.rating || "N/A",
-        image: singleService?.service_image_url || bigImg,
-        provider: singleService?.provider || "Unknown Provider",
-      };
+      name: singleService?.service_name || "Unknown Service",
+      category: singleService?.service_name || "Unknown Category",
+      price: singleService?.service_price || "Contact for Price",
+      rating: singleService?.rating || "N/A",
+      image: singleService?.service_image_url || bigImg,
+      provider: singleService?.provider || "Unknown Provider",
+    };
 
   let bookingDate;
   let bookingStatus;
@@ -812,26 +810,30 @@ const BookingConfirmationSection = ({
 
   const selectedService = singleService
     ? {
-        name: singleService.service_name || "Unknown Service",
-        category: singleService.service_name || "Unknown Category",
-        price: singleService.service_price || "Contact for Price",
-        rating: singleService.rating || "N/A",
-        reviews: singleService.reviews || 678,
-        image: singleService.service_image_url || bigImg,
-        provider: singleService.provider || "Unknown Provider",
-        description:
-          singleService.service_description || "Comprehensive service",
-      }
+      name: singleService.service_name || "Unknown Service",
+      category: singleService.service_name || "Unknown Category",
+      price: singleService.service_price || "Contact for Price",
+      rating: singleService.rating || "N/A",
+      reviews: singleService.reviews || 678,
+      image: singleService.service_image_url || bigImg,
+      provider:
+        singleService.vendor_name ||
+        singleService.name_of_bussiness ||
+        singleService.provider ||
+        "Unknown Provider",
+      description:
+        singleService.service_description || "Comprehensive service",
+    }
     : {
-        name: "Unknown Service",
-        category: "Unknown Category",
-        price: "Contact for Price",
-        rating: "N/A",
-        reviews: "N/A",
-        image: bigImg,
-        provider: "Unknown Provider",
-        description: "Comprehensive service",
-      };
+      name: "Unknown Service",
+      category: "Unknown Category",
+      price: "Contact for Price",
+      rating: "N/A",
+      reviews: "N/A",
+      image: bigImg,
+      provider: "Unknown Provider",
+      description: "Comprehensive service",
+    };
 
   console.log(
     "BookingConfirmation: addressId:",
@@ -1022,7 +1024,7 @@ const BookingConfirmationSection = ({
   );
 };
 
- 
+
 const AddAddressSection = ({ onAddressAdded }) => {
   const dispatch = useDispatch();
   const {
@@ -1448,11 +1450,10 @@ const AddAddressSection = ({ onAddressAdded }) => {
       <div className="space-y-4">
         <div className="flex gap-4 mb-4">
           <button
-            className={`flex-1 p-2 rounded-md text-sm sm:text-base transition ${
-              locationMode === "geolocation"
+            className={`flex-1 p-2 rounded-md text-sm sm:text-base transition ${locationMode === "geolocation"
                 ? "bg-blue-500 text-white"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
+              }`}
             onClick={() => {
               setLocationMode("geolocation");
               setSearchQuery("");
@@ -1474,11 +1475,10 @@ const AddAddressSection = ({ onAddressAdded }) => {
             Fetch Current Location
           </button>
           <button
-            className={`flex-1 p-2 rounded-md text-sm sm:text-base transition ${
-              locationMode === "search"
+            className={`flex-1 p-2 rounded-md text-sm sm:text-base transition ${locationMode === "search"
                 ? "bg-blue-500 text-white"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
+              }`}
             onClick={() => {
               setLocationMode("search");
               setLatitude("");
@@ -1518,9 +1518,9 @@ const AddAddressSection = ({ onAddressAdded }) => {
               <div className="absolute w-full max-w-[calc(100%-2rem)] bg-white border rounded-md shadow-md z-10 max-h-60 overflow-y-auto mt-1">
                 {placeSuggestions.map((place) => (
                   <div
-                  key={place.place_id}
-                  className="p-2 hover:bg-gray-100 cursor-pointer text-sm sm:text-base"
-                  onClick={() => handlePlaceSelect(place)}
+                    key={place.place_id}
+                    className="p-2 hover:bg-gray-100 cursor-pointer text-sm sm:text-base"
+                    onClick={() => handlePlaceSelect(place)}
                   >
                     {place.description}
                   </div>
@@ -1537,20 +1537,20 @@ const AddAddressSection = ({ onAddressAdded }) => {
           </div>
         )}
         <div>
-                  <div>
-                    <label className="text-gray-700 font-medium text-sm sm:text-base">
-                      Map
-                    </label>
-                    <div
-                      ref={mapRef}
-                      className="w-full h-96 mt-2 rounded-md border"
-                    ></div>
-                    <p className="text-gray-500 text-xs sm:text-sm mt-2">
-                      {locationMode === "search"
-                        ? "Click on the map to drop a pin or drag the pin to select a location"
-                        : "Map shows your current location. Please confirm the address below."}
-                    </p>
-                  </div>
+          <div>
+            <label className="text-gray-700 font-medium text-sm sm:text-base">
+              Map
+            </label>
+            <div
+              ref={mapRef}
+              className="w-full h-96 mt-2 rounded-md border"
+            ></div>
+            <p className="text-gray-500 text-xs sm:text-sm mt-2">
+              {locationMode === "search"
+                ? "Click on the map to drop a pin or drag the pin to select a location"
+                : "Map shows your current location. Please confirm the address below."}
+            </p>
+          </div>
           <label className="text-gray-700 font-medium text-sm sm:text-base">
             Latitude
           </label>
@@ -1766,11 +1766,10 @@ const AddressForm = () => {
                 {sections.map((section) => (
                   <div
                     key={section.name}
-                    className={`section-item p-2 sm:p-3 rounded-lg flex items-center cursor-pointer ${
-                      activeSection === section.name
+                    className={`section-item p-2 sm:p-3 rounded-lg flex items-center cursor-pointer ${activeSection === section.name
                         ? "bg-gray-200"
                         : "border hover:bg-gray-100"
-                    }`}
+                      }`}
                     onClick={() => {
                       if (
                         section.name !== "Add Address" &&

@@ -57,7 +57,7 @@ router.put(
   customersController.updateCUSTOMERCOMPLAINTS,
 );
 router.delete(
-  "/data/deleteCUSTOMERCOMPLAINTS/:cust_comp_id",
+  "/data/deleteCUSTOMERCOMPLAINTS/:complaint_id",
   customersController.deleteCUSTOMERCOMPLAINTS,
 );
 

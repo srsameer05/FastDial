@@ -819,7 +819,11 @@ const BookingConfirmationSection = ({
       rating: singleService.rating || "N/A",
       reviews: singleService.reviews || 678,
       image: singleService.service_image_url || bigImg,
-      provider: singleService.provider || "Unknown Provider",
+      provider:
+        singleService.vendor_name ||
+        singleService.name_of_bussiness ||
+        singleService.provider ||
+        "Unknown Provider", 
       description:
         singleService.service_description || "Comprehensive service",
     }

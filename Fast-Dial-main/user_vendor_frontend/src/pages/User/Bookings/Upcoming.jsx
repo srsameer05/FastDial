@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaRegHeart, FaHeart, FaStar } from "react-icons/fa";
+import { FaRegHeart, FaHeart, FaMapMarkerAlt } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getUpcomingBookingsRequest } from "../../../saga/features/customer/customerSlice";
 
 const BASEURL = import.meta.env.VITE_API_URL;
 
 const Upcoming = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { upcoming, bookingsLoading, bookingsError } = useSelector(
-    (state) => state.customer.bookings
-  );
+  const { upcoming, bookingsLoading, bookingsError } = useSelector((state) => state.customer.bookings);
   const customerId = localStorage.getItem("customer_id");
   const [favorites, setFavorites] = useState({});
   const [expanded, setExpanded] = useState({});
   const [cancellingId, setCancellingId] = useState(null);
 
+  useEffect(() => {
+    if (customerId) {
+      dispatch(getUpcomingBookingsRequest({ customer_id: customerId }));
+    }
+  }, [dispatch, customerId]);
+
   const handleCancelBooking = async (booking) => {
     if (!window.confirm("Are you sure you want to cancel this booking?")) return;
-
     setCancellingId(booking.booking_id);
     try {
       const token = localStorage.getItem("token");
@@ -35,178 +36,136 @@ const Upcoming = () => {
           is_completed: booking.is_completed ?? 0,
           is_cancelled: 1,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       alert("Booking cancelled successfully!");
       dispatch(getUpcomingBookingsRequest({ customer_id: customerId }));
     } catch (error) {
-      console.error("Error cancelling booking:", error);
-      alert(
-        error.response?.data?.message ||
-          "Failed to cancel booking. Please try again."
-      );
+      alert(error.response?.data?.message || "Failed to cancel booking.");
     } finally {
       setCancellingId(null);
     }
   };
 
-  useEffect(() => {
-    if (customerId) {
-      dispatch(getUpcomingBookingsRequest({ customer_id: customerId }));
+  const toggleFavorite = (id) => setFavorites((p) => ({ ...p, [id]: !p[id] }));
+  const toggleExpanded = (id) => setExpanded((p) => ({ ...p, [id]: !p[id] }));
+
+  const formatAddress = (addr) => {
+    if (!addr) return "N/A";
+    if (typeof addr === "string") {
+      try { addr = JSON.parse(addr); } catch { return addr; }
     }
-  }, [dispatch, customerId]);
-
-  const toggleFavorite = (bookingId) => {
-    setFavorites((prev) => ({
-      ...prev,
-      [bookingId]: !prev[bookingId],
-    }));
+    return [addr.street, addr.city, addr.state, addr.zip].filter(Boolean).join(", ");
   };
 
-  // ✅ FIX 1: Removed "|| true" — was causing it to never collapse
-  const toggleExpanded = (bookingId) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [bookingId]: !prev[bookingId],
-    }));
-  };
+  if (bookingsLoading) return (
+    <div className="flex justify-center items-center py-16">
+      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+    </div>
+  );
 
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "TBD";
-    return new Date(dateStr).toLocaleString("en-US", {
-      month: "long",
-      day: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+  if (bookingsError) return (
+    <div className="text-center py-10 text-red-500">Error: {bookingsError}</div>
+  );
 
-  if (bookingsLoading) {
-    return <div className="text-center p-4">Loading...</div>;
-  }
-
-  if (bookingsError) {
-    return (
-      <div className="text-center p-4 text-red-600">Error: {bookingsError}</div>
-    );
-  }
-
-  if (!upcoming || upcoming.length === 0) {
-    return <div className="text-center p-4">No upcoming bookings found.</div>;
-  }
+  if (!upcoming || upcoming.length === 0) return (
+    <div className="text-center py-16">
+      <div className="text-5xl mb-4">📅</div>
+      <p className="text-gray-500 text-lg font-medium">No upcoming bookings found.</p>
+      <p className="text-gray-400 text-sm mt-1">Your scheduled services will appear here.</p>
+    </div>
+  );
 
   return (
-    <div className="mt-6 space-y-4">
+    <div className="mt-4 space-y-4">
       {upcoming.map((booking) => (
-        <div
-          key={booking.booking_id}
-          className="bg-white p-4 rounded-2xl shadow-md border w-full max-w-md"
-        >
-          {/* Card Header */}
-          <div className="flex bg-white p-4 rounded-lg shadow-md items-center gap-4 relative">
-            <div className="relative w-28 h-28">
+        <div key={booking.booking_id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="flex gap-4 p-4">
+            <div className="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
               <img
                 src={booking.service_category_url}
                 alt={booking.service_category_name || "Service"}
-                className="w-full h-full object-cover rounded-lg border"
-                onError={(e) =>
-                  (e.target.src = "https://placehold.co/112x112?text=Service")
-                }
+                className="w-full h-full object-cover"
+                onError={(e) => { e.target.src = "https://via.placeholder.com/96x96?text=Service"; }}
               />
             </div>
-
-            <div className="flex-1 relative">
-              {/* Category Badge */}
-              <span className="absolute top-1 left-0 bg-red-100 text-red-600 text-xs font-semibold px-3 py-1 rounded-full">
-                {booking.service_category_name || "Unknown Service"}
-              </span>
-
-              {/* Favourite */}
-              <span
-                className="absolute top-2 right-2 cursor-pointer"
-                onClick={() => toggleFavorite(booking.booking_id)}
-              >
-                {favorites[booking.booking_id] ? (
-                  <FaHeart className="text-red-500" />
-                ) : (
-                  <FaRegHeart />
-                )}
-              </span>
-
-              {/* Service Name */}
-              <h3 className="text-lg font-semibold mt-8 text-gray-900">
-                {booking.service_description ||
-                  `${booking.service_name} Service`}
-              </h3>
-
-              {/* ✅ FIX 2: Show vendor_name instead of raw vendor_id number */}
-              <p className="text-sm text-gray-600 flex items-center gap-2 mt-1">
-                <span className="text-gray-800">
-                  {booking.vendor_name ||
-                    (booking.vendor_id
-                      ? `Vendor #${booking.vendor_id}`
-                      : "Unknown Vendor")}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between">
+                <span className="inline-block bg-blue-50 text-blue-600 text-xs font-semibold px-2 py-1 rounded-full">
+                  {booking.service_category_name || "Service"}
                 </span>
-                •
-                <FaStar className="text-yellow-500" />
-                {booking.rating ?? "N/A"}
+                <button onClick={() => toggleFavorite(booking.booking_id)} className="text-gray-300 hover:text-red-400 transition ml-2">
+                  {favorites[booking.booking_id] ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+                </button>
+              </div>
+              <h3 className="text-sm font-semibold text-gray-900 mt-2 truncate">
+                {booking.service_description || booking.service_category_name || "Service"}
+              </h3>
+              <p className="text-xs text-gray-500 mt-1">
+                {booking.vendor_name || "Vendor not yet assigned"}
               </p>
-
-              {/* Price */}
-              <p className="text-blue-600 text-base font-bold mt-1">
-                ${booking.service_price || "N/A"} / Per hour
+              <p className="text-blue-600 text-sm font-bold mt-1">
+                ₹{booking.service_price || "N/A"} / Per service
               </p>
             </div>
           </div>
 
-          {/* ✅ FIX 3: Booking Date is now ALWAYS visible — moved outside expanded block */}
-          <div className="flex justify-between text-xs text-gray-600 px-1 mt-3">
-            <span className="text-gray-400">Booking Date</span>
-            <span className="font-medium">{formatDate(booking.booking_date)}</span>
-          </div>
-
-          {/* Expanded Details */}
           {expanded[booking.booking_id] && (
-            <div className="text-xs text-gray-700 mt-3 border-t pt-2 space-y-2">
-              <p className="flex justify-between">
-                <span className="text-gray-400">Customer</span>
-                <span className="font-medium">
-                  {booking.customer_name || "N/A"}
-                </span>
-              </p>
-              <p className="flex justify-between">
+            <div className="px-4 pb-3 border-t border-gray-50 pt-3 space-y-2">
+              <div className="flex justify-between text-xs">
                 <span className="text-gray-400">Booking ID</span>
-                <span className="font-medium">#{booking.booking_id}</span>
-              </p>
+                <span className="font-medium text-gray-700">#{booking.booking_id}</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">Type</span>
+                <span className="font-medium text-gray-700 capitalize">{booking.booking_type || "N/A"}</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">Scheduled</span>
+                <span className="font-medium text-gray-700">
+                  {booking.scheduled_date
+                    ? new Date(booking.scheduled_date).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
+                    : booking.booking_type === "now" ? "Immediate" : "TBD"}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">Booked On</span>
+                <span className="font-medium text-gray-700">
+                  {booking.created_at ? new Date(booking.created_at).toLocaleDateString("en-IN") : "N/A"}
+                </span>
+              </div>
+              {booking.booking_address && (
+                <div className="flex justify-between text-xs">
+                  <span className="text-gray-400 flex items-center gap-1"><FaMapMarkerAlt /> Address</span>
+                  <span className="font-medium text-gray-700 text-right max-w-[60%]">
+                    {formatAddress(booking.booking_address)}
+                  </span>
+                </div>
+              )}
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">Status</span>
+                <span className="font-medium text-amber-600">Pending Assignment</span>
+              </div>
             </div>
           )}
 
-          {/* Cancel Button */}
-          <button
-            className="mt-4 w-full bg-blue-600 text-white text-sm font-medium py-2 rounded-full hover:bg-blue-700 transition disabled:bg-gray-400"
-            onClick={() => handleCancelBooking(booking)}
-            disabled={cancellingId === booking.booking_id}
-          >
-            {cancellingId === booking.booking_id ? "Cancelling..." : "Cancel"}
-          </button>
+          <div className="px-4 pb-4 pt-2">
+            <button
+              className="w-full bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2 rounded-xl transition disabled:opacity-50"
+              onClick={() => handleCancelBooking(booking)}
+              disabled={cancellingId === booking.booking_id}
+            >
+              {cancellingId === booking.booking_id ? "Cancelling..." : "Cancel Booking"}
+            </button>
+          </div>
 
-          {/* View More / Less Toggle */}
-          <div
-            className="flex items-center justify-center text-gray-500 text-xs mt-2 cursor-pointer"
+          <button
+            className="w-full flex items-center justify-center text-gray-400 text-xs py-2 border-t border-gray-50 hover:bg-gray-50 transition"
             onClick={() => toggleExpanded(booking.booking_id)}
           >
-            View {expanded[booking.booking_id] ? "Less" : "More"}
-            <IoIosArrowDown
-              className={`ml-1 transform transition-transform ${
-                expanded[booking.booking_id] ? "rotate-180" : ""
-              }`}
-            />
-          </div>
+            {expanded[booking.booking_id] ? "View Less" : "View More"}
+            <IoIosArrowDown className={`ml-1 transition-transform ${expanded[booking.booking_id] ? "rotate-180" : ""}`} />
+          </button>
         </div>
       ))}
     </div>

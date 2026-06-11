@@ -243,8 +243,8 @@ exports.insertCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
 });
 
 exports.updateCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
-  await sql.update("CUSTOMERCOMPLAINTS", req.body, { cust_comp_id: req.params.cust_comp_id || req.body.cust_comp_id });
-  res.status(200).send({ message: " complaints Request submitted" });
+  await generateUpdateStatement("CUSTOMERCOMPLAINTS", req, "complaint_id"); // ✅ fixed
+  res.status(200).send({ message: "complaints Request submitted" });
 });
 
 exports.deleteCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
