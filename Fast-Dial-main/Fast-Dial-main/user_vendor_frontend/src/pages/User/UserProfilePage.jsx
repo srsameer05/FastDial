@@ -72,7 +72,7 @@ export default function UserProfilePage() {
             decoded?.customer_id || user?.customer_id
           );
           dispatch(getCustomerDataRequest({ customer_id: decoded?.customer_id || user?.customer_id }));
-          dispatch(getComplaintsRequest()); 
+          dispatch(getComplaintsRequest());
         } else {
           console.warn("UserProfilePage: No customer_id found, redirecting to login");
           navigate("/Home");
@@ -129,11 +129,10 @@ export default function UserProfilePage() {
               <button
                 key={item.id}
                 onClick={() => handleMenuClick(item.id)}
-                className={`flex justify-between items-center w-full px-4 py-3 border-b ${
-                  selectedSection === item.id && item.id !== "logout"
+                className={`flex justify-between items-center w-full px-4 py-3 border-b ${selectedSection === item.id && item.id !== "logout"
                     ? "bg-gray-100 font-semibold"
                     : "hover:bg-gray-50"
-                }`}
+                  }`}
               >
                 <span className="flex items-center gap-3">
                   {item.icon} {item.label}
@@ -481,11 +480,10 @@ function ProfileForm() {
         <button
           type="submit"
           disabled={updateCustomerLoading || uploading}
-          className={`w-full p-3 rounded-md text-white ${
-            updateCustomerLoading || uploading
+          className={`w-full p-3 rounded-md text-white ${updateCustomerLoading || uploading
               ? "bg-blue-400 cursor-not-allowed"
               : "bg-blue-600 hover:bg-blue-700"
-          }`}
+            }`}
         >
           {updateCustomerLoading || uploading ? "Saving..." : "Save"}
         </button>
@@ -723,9 +721,10 @@ function RiseIssue() {
     const decoded = token ? jwtDecode(token) : null;
     const payload = {
       customer_id: user?.customer_id || decoded?.customer_id,
-      cust_comp_desc: formData.cust_comp_desc,
-      cust_comp_date: formData.cust_comp_date,
-      ...(editingComplaint ? { cust_comp_id: editingComplaint.cust_comp_id } : {}),
+      complaint_text: formData.cust_comp_desc,
+      ...(editingComplaint
+        ? { complaint_id: editingComplaint.complaint_id }
+        : {}),
     };
 
     if (editingComplaint) {
@@ -821,19 +820,18 @@ function RiseIssue() {
         <button
           type="submit"
           disabled={insertComplaintLoading || updateComplaintLoading}
-          className={`w-full p-3 rounded-md text-white ${
-            insertComplaintLoading || updateComplaintLoading
+          className={`w-full p-3 rounded-md text-white ${insertComplaintLoading || updateComplaintLoading
               ? "bg-blue-400 cursor-not-allowed"
               : "bg-blue-600 hover:bg-blue-700"
-          }`}
+            }`}
         >
           {editingComplaint
             ? updateComplaintLoading
               ? "Updating..."
               : "Update Complaint"
             : insertComplaintLoading
-            ? "Submitting..."
-            : "Submit Complaint"}
+              ? "Submitting..."
+              : "Submit Complaint"}
         </button>
       </form>
       <h3 className="text-lg font-semibold mt-6 mb-4">Your Complaints</h3>
@@ -858,13 +856,12 @@ function RiseIssue() {
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(complaint.cust_comp_id)}
+                  onClick={() => handleDelete(complaint.complaint_id)}
                   disabled={deleteComplaintLoading}
-                  className={`px-4 py-2 rounded-md text-white ${
-                    deleteComplaintLoading
+                  className={`px-4 py-2 rounded-md text-white ${deleteComplaintLoading
                       ? "bg-red-400 cursor-not-allowed"
                       : "bg-red-600 hover:bg-red-700"
-                  }`}
+                    }`}
                 >
                   {deleteComplaintLoading ? "Deleting..." : "Delete"}
                 </button>
