@@ -267,27 +267,25 @@ exports.insertCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
 });
 
 exports.updateCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("CUSTOMERCOMPLAINTS", req, "cust_comp_id");
-  res.status(200).send({ message: " complaints Request submitted" });
+  await generateUpdateStatement("CUSTOMERCOMPLAINTS", req, "complaint_id"); // ✅ fixed
+  res.status(200).send({ message: "complaints Request submitted" });
 });
 
 exports.deleteCUSTOMERCOMPLAINTS = catchAsyncError(async (req, res, next) => {
-  const id = req.params.cust_comp_id;
+  const id = req.params.complaint_id; // ✅ fixed
 
   if (!id) {
-    return res
-      .status(400)
-      .json({ message: "Please provide a complaints ID to delete" });
+    return res.status(400).json({ message: "Please provide a complaints ID to delete" });
   }
 
-  const checkQuery = `SELECT * FROM CUSTOMERCOMPLAINTS WHERE cust_comp_id = ?`;
+  const checkQuery = `SELECT * FROM CUSTOMERCOMPLAINTS WHERE complaint_id = ?`; // ✅ fixed
   const complaint = await db(checkQuery, [id]);
 
   if (complaint.length === 0) {
     return res.status(404).json({ message: "complaints not found" });
   }
 
-  const deleteQuery = `DELETE FROM CUSTOMERCOMPLAINTS WHERE cust_comp_id = ?`;
+  const deleteQuery = `DELETE FROM CUSTOMERCOMPLAINTS WHERE complaint_id = ?`; // ✅ fixed
   await db(deleteQuery, [id]);
 
   res.status(200).json({ message: "complaints deleted successfully" });
@@ -356,7 +354,7 @@ exports.initiatePayment = async (req, res) => {
   const priceQuery = `
     SELECT VS.service_price
     FROM SERVICEBOOKINGS SB
-    JOIN VENDOR_SERVICES VS ON SB.vendor_id = VS.vendor_id AND SB.service_id = VS.service_id
+    JLEFT JOIN VENDOR_SERVICES vs ON sb.vendor_id = vs.vendor_id AND sb.service_id = vs.service_idOIN VENDOR_SERVICES VS ON SB.vendor_id = VS.vendor_id AND SB.service_id = VS.service_id
     WHERE SB.booking_id = ?
   `;
 
@@ -1106,11 +1104,10 @@ exports.deleteREVIEWS = catchAsyncError(async (req, res, next) => {
 
 exports.getCompletedBookingwithoutid = async (req, res) => {
   const customer_id = req.user.customer_id;
-  console.log("customer_id", customer_id);
   if (!customer_id) {
     return res.status(400).json({ message: "Customer ID is required" });
   }
-
+ 
   try {
     const query = `
       SELECT 
@@ -1121,42 +1118,48 @@ exports.getCompletedBookingwithoutid = async (req, res) => {
         sb.is_completed, 
         sb.is_cancelled, 
         sb.cancelled_reason, 
-        sb.vendor_id, 
-
+        sb.vendor_id,
+        sb.booking_type,
+        sb.created_at,
+ 
         c.customer_name, 
         c.mobile, 
         c.customer_country, 
         c.gender, 
         c.customer_address, 
         c.customer_email, 
-
+ 
         sc.service_cat_id,
-        sc.service_category_name, 
-        vs.service_description,       
-        vs.service_price,       
+        sc.service_category_name,
         sc.service_category_url,
-
+ 
+        COALESCE(vs.service_description, s.service_description) AS service_description,
+        COALESCE(vs.service_price, s.service_price) AS service_price,
+ 
+        v.vendor_name,
+        v.vendor_mobile,
+ 
         ca.address AS booking_address
-
+ 
       FROM SERVICEBOOKINGS sb
       JOIN CUSTOMERS c ON sb.customer_id = c.customer_id
-      JOIN VENDOR_SERVICES vs ON sb.vendor_id = vs.vendor_id AND sb.service_id = vs.service_id
       JOIN SERVICES s ON sb.service_id = s.service_id
       JOIN SERVICE_CATEGORIES sc ON s.service_cat_id = sc.service_cat_id
-        LEFT JOIN CUSTOMER_ADDRESSES ca ON sb.address_id = ca.address_id
+      LEFT JOIN VENDOR_SERVICES vs ON sb.vendor_id = vs.vendor_id AND sb.service_id = vs.service_id
+      LEFT JOIN VENDORS v ON sb.vendor_id = v.vendor_id
+      LEFT JOIN CUSTOMER_ADDRESSES ca ON sb.address_id = ca.address_id
       WHERE sb.is_completed = TRUE AND sb.customer_id = ?
       ORDER BY sb.booking_id DESC
     `;
-
+ 
     const bookings = await db(query, [customer_id]);
-
     res.status(200).json({ success: true, data: bookings });
   } catch (error) {
     console.error("Error fetching completed bookings:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
+ 
 exports.getCompletedBookingwithid = async (req, res) => {
   const { customer_id } = req.params;
   console.log("customer_id", customer_id);
@@ -1252,11 +1255,10 @@ exports.getCompletedBookingwithid = async (req, res) => {
 // };
 exports.getCancelledBookingwithoutid = async (req, res) => {
   const customer_id = req.user.customer_id;
-
   if (!customer_id) {
     return res.status(400).json({ message: "Customer ID is required" });
   }
-
+ 
   try {
     const query = `
       SELECT 
@@ -1267,35 +1269,41 @@ exports.getCancelledBookingwithoutid = async (req, res) => {
         sb.is_completed, 
         sb.is_cancelled, 
         sb.cancelled_reason, 
-        sb.vendor_id, 
-
+        sb.vendor_id,
+        sb.booking_type,
+        sb.created_at,
+ 
         c.customer_name, 
         c.mobile, 
         c.customer_country, 
         c.gender, 
         c.customer_address, 
         c.customer_email, 
-
+ 
         sc.service_cat_id,
-        sc.service_category_name, 
-        vs.service_description,       
-        vs.service_price,       
+        sc.service_category_name,
         sc.service_category_url,
-
+ 
+        COALESCE(vs.service_description, s.service_description) AS service_description,
+        COALESCE(vs.service_price, s.service_price) AS service_price,
+ 
+        v.vendor_name,
+        v.vendor_mobile,
+ 
         ca.address AS booking_address
-
+ 
       FROM SERVICEBOOKINGS sb
       JOIN CUSTOMERS c ON sb.customer_id = c.customer_id
-      JOIN VENDOR_SERVICES vs ON sb.vendor_id = vs.vendor_id AND sb.service_id = vs.service_id
       JOIN SERVICES s ON sb.service_id = s.service_id
       JOIN SERVICE_CATEGORIES sc ON s.service_cat_id = sc.service_cat_id
-        LEFT JOIN CUSTOMER_ADDRESSES ca ON sb.address_id = ca.address_id
+      LEFT JOIN VENDOR_SERVICES vs ON sb.vendor_id = vs.vendor_id AND sb.service_id = vs.service_id
+      LEFT JOIN VENDORS v ON sb.vendor_id = v.vendor_id
+      LEFT JOIN CUSTOMER_ADDRESSES ca ON sb.address_id = ca.address_id
       WHERE sb.is_cancelled = TRUE AND sb.customer_id = ?
       ORDER BY sb.booking_id DESC
     `;
-
+ 
     const bookings = await db(query, [customer_id]);
-
     res.status(200).json({ success: true, data: bookings });
   } catch (error) {
     console.error("Error fetching cancelled bookings:", error);

@@ -465,6 +465,10 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `name_of_bussiness`*/;
 SET character_set_client = @saved_cs_client;
 
+
+ALTER TABLE SUBSCRIPTIONS 
+ADD COLUMN subscription_desc TEXT;
+
 --
 -- Table structure for table `vendor_subscriptions`
 --
@@ -563,6 +567,8 @@ CREATE TABLE `vendorscomplaints` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+ ALTER TABLE REVIEWS MODIFY service_id INT NULL DEFAULT NULL;
 --
 -- Final view structure for view `customercomplaintsview`
 --
