@@ -433,6 +433,7 @@ const ReviewSummary = ({
     paymentInitiateBookNowError,
     selectedPaymentMethod,
     customerAddresses,
+    selectedAddress,
   } = useSelector((state) => state.customer);
   const [retryCount, setRetryCount] = useState(0);
   const [showPaymentOptions, setShowPaymentOptions] = useState(
@@ -527,15 +528,16 @@ const ReviewSummary = ({
     (b) => Number(b.booking_id) === Number(bookingId)
   );
 
-  const address = customerAddresses?.find(
-    (addr) => Number(addr.address_id) === Number(booking?.address_id)
-  );
+  const addressText = booking?.booking_address
+    || (typeof selectedAddress === 'string' ? selectedAddress : selectedAddress?.full_addres)
+    || "No address selected";
+
 
   const service = booking
     ? {
       name: booking.service_name || "Unknown Service",
       category: booking.service_category_name || "Unknown Category",
-      price: booking.service_price || "Contact for Price",
+      price: booking.service_price ?? singleService?.service_price ?? null,
       rating: 4.8,
       image: booking.service_category_url || bigImg,
       provider:
@@ -576,8 +578,10 @@ const ReviewSummary = ({
     bookingStatus = "Immediate";
   }
 
+  // AFTER
   const taxAndFees = 0;
-  const totalPrice = parseFloat(service.price || 0) + taxAndFees;
+  const numericPrice = parseFloat(service.price);
+  const totalPrice = isNaN(numericPrice) ? null : numericPrice + taxAndFees;
 
   const handlePaymentSelection = (method) => {
     dispatch(setPaymentMethod(method));
@@ -615,7 +619,7 @@ const ReviewSummary = ({
             </span>
           </div>
           <p className="text-blue-600 font-semibold mt-1 text-sm sm:text-base">
-            ₹{service.price} / Per service
+            {service.price != null ? `₹${service.price} / Per service` : "Contact for Price"}
           </p>
         </div>
         <FaRegHeart className="text-gray-400 text-base sm:text-lg cursor-pointer self-center sm:self-start" />
@@ -638,13 +642,13 @@ const ReviewSummary = ({
         </div>
         <div className="flex justify-between text-xs sm:text-sm">
           <p className="text-gray-500">Address</p>
-          <p className="font-semibold">
-            {address?.full_addres || "No address selected"}
-          </p>
+          <p className="font-semibold">{addressText}</p>
         </div>
         <div className="flex justify-between text-xs sm:text-sm">
           <p className="text-gray-500">Amount</p>
-          <p className="font-semibold">₹{service.price}</p>
+          <p className="font-semibold">
+            {service.price != null ? `₹${service.price}` : "Contact for Price"}
+          </p>
         </div>
         <div className="flex justify-between text-xs sm:text-sm">
           <p className="text-gray-500">Tax & Fees</p>
@@ -656,7 +660,9 @@ const ReviewSummary = ({
 
       <div className="p-3 sm:p-4 flex justify-between text-base sm:text-lg font-semibold">
         <p>Total:</p>
-        <p className="text-gray-900">₹{totalPrice.toFixed(2)}</p>
+        <p className="text-gray-900">
+          {totalPrice != null ? `₹${totalPrice.toFixed(2)}` : "Contact for Price"}
+        </p>
       </div>
 
       {showPaymentOptions && (
@@ -794,9 +800,10 @@ const BookingConfirmationSection = ({
   address,
 }) => {
   const dispatch = useDispatch();
-  const { user, bookingLoading, bookingError, lastBookingId } = useSelector(
+  const { user, bookingLoading, bookingError, lastBookingId, selectedAddress: reduxAddress } = useSelector(
     (state) => state.customer
   );
+  const resolvedAddress = address || reduxAddress;
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [bookingAttempted, setBookingAttempted] = useState(false);
@@ -823,7 +830,7 @@ const BookingConfirmationSection = ({
         singleService.vendor_name ||
         singleService.name_of_bussiness ||
         singleService.provider ||
-        "Unknown Provider", 
+        "Unknown Provider",
       description:
         singleService.service_description || "Comprehensive service",
     }
@@ -977,10 +984,15 @@ const BookingConfirmationSection = ({
             <h3 className="text-gray-700 font-medium text-sm sm:text-base">
               Selected Address
             </h3>
-            <p className="text-gray-600 text-xs sm:text-sm">
-              {address?.full_addres || "No address selected"}
+
+            <p className="font-semibold">
+              {typeof resolvedAddress === 'string'
+                ? resolvedAddress
+                : resolvedAddress?.full_addres || "No address selected"}
             </p>
+
           </div>
+
           {bookingType === "later" && (
             <div className="mt-3 sm:mt-4">
               <label className="text-gray-700 font-medium text-sm sm:text-base">
@@ -1017,8 +1029,7 @@ const BookingConfirmationSection = ({
           <button
             className="w-full bg-blue-500 text-white p-2 sm:p-3 rounded-full mt-4 sm:mt-6 hover:bg-blue-600 transition text-sm sm:text-base"
             onClick={handleConfirmBooking}
-            disabled={bookingLoading || singleServiceLoading || !addressId}
-          >
+            disabled={bookingLoading || singleServiceLoading || (!addressId && !resolvedAddress)}          >
             {bookingLoading ? "Booking..." : "Confirm Booking"}
           </button>
         </div>
