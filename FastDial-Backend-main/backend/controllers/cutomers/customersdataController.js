@@ -2488,11 +2488,18 @@ exports.markNotificationRead = catchAsyncError(async (req, res, next) => {
 exports.getVendorLocationTracking = catchAsyncError(async (req, res, next) => {
   const { booking_id } = req.params;
 
-  const [data] = await db(
+  const data = await db(   // ✅ data is now the full results array
     `SELECT * FROM LOCATION_TRACKING 
      WHERE booking_id = ? AND user_type = 'vendor'`,
     [booking_id],
   );
+
+  if (!data || data.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: "Vendor location not found for this booking",
+    });
+  }
 
   res.status(200).json({
     success: true,
@@ -2500,5 +2507,4 @@ exports.getVendorLocationTracking = catchAsyncError(async (req, res, next) => {
     data,
   });
 });
-
 // ... existing code ...

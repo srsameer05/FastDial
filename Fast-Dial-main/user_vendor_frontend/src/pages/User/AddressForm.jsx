@@ -35,8 +35,9 @@ import {
 } from "../../saga/features/customer/customerSlice";
 import Header from "./Header";
 import Footer from "./Footer";
-import image from "../../assets/image.png";
+import image from "../../assets/cleaning.png";
 import bigImg from "../../assets/BigImg.png";
+
 const key = import.meta.env.VITE_RAZORPAY_KEY;
 const GoogleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -445,28 +446,16 @@ const ReviewSummary = ({
 
   useEffect(() => {
     if (bookingId && !customerServiceDetailsLoading) {
-      console.log(
-        "ReviewSummary: Dispatching getCustomerServiceDetailsRequest for booking_id:",
-        bookingId
-      );
       dispatch(getCustomerServiceDetailsRequest());
     }
   }, [dispatch, bookingId]);
 
   useEffect(() => {
-    if (
-      bookingId &&
-      !customerServiceDetailsLoading &&
-      retryCount < maxRetries
-    ) {
+    if (bookingId && !customerServiceDetailsLoading && retryCount < maxRetries) {
       const booking = customerServiceDetails?.find(
         (b) => Number(b.booking_id) === Number(bookingId)
       );
       if (!booking && !customerServiceDetailsError) {
-        console.log(
-          `ReviewSummary: Booking ID ${bookingId} not found, retrying (${retryCount + 1
-          }/${maxRetries})`
-        );
         setTimeout(() => {
           dispatch(getCustomerServiceDetailsRequest());
           setRetryCount(retryCount + 1);
@@ -484,9 +473,6 @@ const ReviewSummary = ({
 
   useEffect(() => {
     if (paymentInitiateBookNowSuccess && selectedPaymentMethod === "cash") {
-      console.log(
-        "ReviewSummary: Cash on Delivery payment initiated successfully"
-      );
       setShowPaymentOptions(false);
       dispatch(clearPaymentBookNowStatus());
       setShowSuccessModal(true);
@@ -528,10 +514,14 @@ const ReviewSummary = ({
     (b) => Number(b.booking_id) === Number(bookingId)
   );
 
-  const addressText = booking?.booking_address
-    || (typeof selectedAddress === 'string' ? selectedAddress : selectedAddress?.full_addres)
-    || "No address selected";
-
+  const addressText =
+    typeof booking?.booking_address === "object"
+      ? booking?.booking_address?.full_addres
+      : booking?.booking_address ||
+      (typeof selectedAddress === "object"
+        ? selectedAddress?.full_addres
+        : selectedAddress) ||
+      "No address selected";
 
   const service = booking
     ? {
@@ -539,20 +529,27 @@ const ReviewSummary = ({
       category: booking.service_category_name || "Unknown Category",
       price: booking.service_price ?? singleService?.service_price ?? null,
       rating: 4.8,
-      image: booking.service_category_url || bigImg,
+      image:
+        (singleService?.service_image_url && singleService.service_image_url.trim() !== "")
+          ? singleService.service_image_url
+          : image,
       provider:
         booking.vendor_name ||
-        booking.name_of_bussiness ||
-        "Unknown Provider",
+        "Vendor not assigned yet",
     }
     : {
       name: singleService?.service_name || "Unknown Service",
       category: singleService?.service_name || "Unknown Category",
       price: singleService?.service_price || "Contact for Price",
       rating: singleService?.rating || "N/A",
-      image: singleService?.service_image_url || bigImg,
-      provider: singleService?.provider || "Unknown Provider",
+      image:
+        (singleService?.service_image_url && singleService.service_image_url.trim() !== "")
+          ? singleService.service_image_url
+          : image,
+      provider: "Vendor not assigned yet",
     };
+
+
 
   let bookingDate;
   let bookingStatus;
@@ -564,10 +561,6 @@ const ReviewSummary = ({
         : parsedDate.toLocaleDateString();
       bookingStatus = "Scheduled";
     } else {
-      console.warn(
-        "ReviewSummary: Missing scheduled_date for Book Later booking:",
-        booking
-      );
       bookingDate = "Date not available";
       bookingStatus = "Scheduled";
     }
@@ -578,7 +571,6 @@ const ReviewSummary = ({
     bookingStatus = "Immediate";
   }
 
-  // AFTER
   const taxAndFees = 0;
   const numericPrice = parseFloat(service.price);
   const totalPrice = isNaN(numericPrice) ? null : numericPrice + taxAndFees;
@@ -604,6 +596,10 @@ const ReviewSummary = ({
           src={service.image}
           alt={service.name}
           className="w-20 sm:w-24 h-20 sm:h-24 rounded-lg object-cover self-center sm:self-start"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = image;
+          }}
         />
         <div className="flex-1">
           <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-md">
@@ -613,13 +609,24 @@ const ReviewSummary = ({
             {service.name}
           </h3>
           <div className="flex items-center text-gray-500 text-xs sm:text-sm">
-            <span>{service.provider}</span>
+            <span>
+              👤{" "}
+              {service.provider === "Vendor not assigned yet" ? (
+                <span className="text-yellow-500 font-medium">
+                  Vendor not assigned yet
+                </span>
+              ) : (
+                service.provider
+              )}
+            </span>
             <span className="ml-2 sm:ml-4 flex items-center">
               ⭐ <span className="ml-1">{service.rating}</span>
             </span>
           </div>
           <p className="text-blue-600 font-semibold mt-1 text-sm sm:text-base">
-            {service.price != null ? `₹${service.price} / Per service` : "Contact for Price"}
+            {service.price != null
+              ? `₹${service.price} / Per service`
+              : "Contact for Price"}
           </p>
         </div>
         <FaRegHeart className="text-gray-400 text-base sm:text-lg cursor-pointer self-center sm:self-start" />
@@ -647,7 +654,9 @@ const ReviewSummary = ({
         <div className="flex justify-between text-xs sm:text-sm">
           <p className="text-gray-500">Amount</p>
           <p className="font-semibold">
-            {service.price != null ? `₹${service.price}` : "Contact for Price"}
+            {service.price != null
+              ? `₹${service.price}`
+              : "Contact for Price"}
           </p>
         </div>
         <div className="flex justify-between text-xs sm:text-sm">
@@ -661,7 +670,9 @@ const ReviewSummary = ({
       <div className="p-3 sm:p-4 flex justify-between text-base sm:text-lg font-semibold">
         <p>Total:</p>
         <p className="text-gray-900">
-          {totalPrice != null ? `₹${totalPrice.toFixed(2)}` : "Contact for Price"}
+          {totalPrice != null
+            ? `₹${totalPrice.toFixed(2)}`
+            : "Contact for Price"}
         </p>
       </div>
 
@@ -788,6 +799,7 @@ const ReviewSummary = ({
   );
 };
 
+
 const BookingConfirmationSection = ({
   serviceId,
   vendorId,
@@ -817,7 +829,6 @@ const BookingConfirmationSection = ({
     console.log(`BookingConfirmation: Image failed to load: ${e.target.src}`);
     e.target.src = image;
   };
-
   const selectedService = singleService
     ? {
       name: singleService.service_name || "Unknown Service",
@@ -830,7 +841,7 @@ const BookingConfirmationSection = ({
         singleService.vendor_name ||
         singleService.name_of_bussiness ||
         singleService.provider ||
-        "Unknown Provider",
+        "Vendor not assigned yet",   // ← change "Unknown Provider" to this
       description:
         singleService.service_description || "Comprehensive service",
     }
@@ -841,7 +852,7 @@ const BookingConfirmationSection = ({
       rating: "N/A",
       reviews: "N/A",
       image: bigImg,
-      provider: "Unknown Provider",
+      provider: "Vendor not assigned yet",   // ← change "Unknown Provider" to this
       description: "Comprehensive service",
     };
 
@@ -972,7 +983,16 @@ const BookingConfirmationSection = ({
             {selectedService.description}
           </p>
           <div className="flex items-center text-gray-500 text-xs sm:text-sm">
-            <span>👤 {selectedService.provider}</span>
+            <span>
+              👤{" "}
+              {selectedService.provider === "Vendor not assigned yet" ? (
+                <span className="text-yellow-500 font-medium">
+                  Vendor not assigned yet
+                </span>
+              ) : (
+                selectedService.provider
+              )}
+            </span>
             <span className="ml-2 sm:ml-4 flex items-center">
               ⭐ <span className="ml-1">{selectedService.rating}</span>
             </span>
@@ -984,6 +1004,8 @@ const BookingConfirmationSection = ({
             <h3 className="text-gray-700 font-medium text-sm sm:text-base">
               Selected Address
             </h3>
+
+
 
             <p className="font-semibold">
               {typeof resolvedAddress === 'string'

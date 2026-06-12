@@ -12,7 +12,7 @@ const BASEURL = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1";
 
 const containerStyle = {
   width: "100%",
-  height: "400px", // Fit inside card
+  height: "400px",
 };
 
 const GOOGLE_MAP_LIBRARIES = ["places"];
@@ -40,22 +40,26 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const LiveMap = ({ bookingId, userToken }) => {
+// FIX 4: Accept customerAddress as a prop instead of reading from localStorage
+const LiveMap = ({ bookingId, userToken, vendorId, customerAddress }) => {
   const [driverPosition, setDriverPosition] = useState(null);
   const [ETA, setETA] = useState("");
   const [distance, setDistance] = useState("");
   const [directions, setDirections] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // FIX: Don't start in loading state — only load when we have a vendor
+  const [isLoading, setIsLoading] = useState(false);
 
   const markerRef = useRef(null);
 
-  const customerAddress = JSON.parse(localStorage.getItem("selectedAddressId"));
-  console.log("Customer Address from localStorage:", customerAddress);
-  const customerLocation = customerAddress
-    ? { lat: Number(customerAddress.latitude), lng: Number(customerAddress.longitude) }
-    : { lat: 13.0827, lng: 80.2707 }; // Fallback to Chennai if no address
+  // FIX 4: Use prop-based address with fallback to localStorage, then Chennai
+  const resolvedAddress = customerAddress
+    || JSON.parse(localStorage.getItem("selectedAddressId") || "null");
+
+  const customerLocation = resolvedAddress?.latitude && resolvedAddress?.longitude
+    ? { lat: Number(resolvedAddress.latitude), lng: Number(resolvedAddress.longitude) }
+    : { lat: 13.0827, lng: 80.2707 }; // Fallback to Chennai
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
@@ -64,10 +68,11 @@ const LiveMap = ({ bookingId, userToken }) => {
   });
 
   const fetchVendorLocation = async () => {
-    console.log("fetchVendorLocation Called for bookingId:", bookingId);
+    console.log("fetchVendorLocation called for bookingId:", bookingId);
     try {
       setIsLoading(true);
       setError(null);
+
       const response = await fetch(
         `${BASEURL}/customers/data/getVendorLocationTracking/${bookingId}`,
         {
@@ -79,6 +84,15 @@ const LiveMap = ({ bookingId, userToken }) => {
         }
       );
 
+      // FIX 2: Handle 404 gracefully — vendor just hasn't started tracking yet
+      if (response.status === 404) {
+        console.log("Vendor location not yet available (404) — will retry");
+        setDriverPosition(null);
+        setDirections(null);
+        setIsLoading(false);
+        return;
+      }
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -86,15 +100,19 @@ const LiveMap = ({ bookingId, userToken }) => {
       const result = await response.json();
       console.log("Vendor Location API Response:", result);
 
-      if (result?.data?.latitude && result?.data?.longitude) {
+      // FIX: Backend now returns array — handle both array and single object
+      const locationData = Array.isArray(result.data)
+        ? result.data[0]
+        : result.data;
+
+      if (locationData?.latitude && locationData?.longitude) {
         const newPos = {
-          lat: Number(result.data.latitude),
-          lng: Number(result.data.longitude),
+          lat: Number(locationData.latitude),
+          lng: Number(locationData.longitude),
         };
         setDriverPosition(newPos);
         console.log("Driver position updated to:", newPos);
 
-        // Calculate route, ETA, and distance
         if (window.google && isLoaded) {
           const directionsService = new window.google.maps.DirectionsService();
           directionsService.route(
@@ -104,8 +122,6 @@ const LiveMap = ({ bookingId, userToken }) => {
               travelMode: window.google.maps.TravelMode.DRIVING,
             },
             (result, status) => {
-              console.log("Directions API Status:", status);
-              console.log("Directions API Result:", result);
               if (status === "OK") {
                 const leg = result.routes[0].legs[0];
                 setETA(leg.duration.text);
@@ -120,35 +136,32 @@ const LiveMap = ({ bookingId, userToken }) => {
           );
         }
       } else {
-        console.warn("Vendor Location API: No valid coordinates found in response");
-        setError("Vendor location not available. Please try again later.");
+        console.warn("No valid coordinates in vendor location response");
       }
-    } catch (error) {
-      console.error("Error fetching vendor location:", error.message);
+    } catch (err) {
+      console.error("Error fetching vendor location:", err.message);
       setError("Failed to fetch vendor location. Please check your connection or try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Poll vendor location every 5 seconds
   useEffect(() => {
     if (!isLoaded || !bookingId || !userToken) {
-      console.log("fetchVendorLocation skipped: isLoaded, bookingId, userToken:", {
-        isLoaded,
-        bookingId,
-        userToken,
-      });
-      setError("Missing required parameters. Please ensure you are logged in and a booking is selected.");
-      setIsLoading(false);
+      console.log("Skipping fetch — missing isLoaded, bookingId, or userToken");
       return;
     }
 
-    fetchVendorLocation(); // Initial fetch
-    const intervalId = setInterval(fetchVendorLocation, 15000);
+    // FIX 3: Don't fetch vendor location if no vendor is assigned yet
+    if (!vendorId) {
+      console.log("No vendor assigned to this booking — skipping location fetch");
+      return;
+    }
 
+    fetchVendorLocation();
+    const intervalId = setInterval(fetchVendorLocation, 15000);
     return () => clearInterval(intervalId);
-  }, [isLoaded, bookingId, userToken]);
+  }, [isLoaded, bookingId, userToken, vendorId]);
 
   if (loadError) {
     return (
@@ -158,10 +171,27 @@ const LiveMap = ({ bookingId, userToken }) => {
     );
   }
 
-  if (!isLoaded || isLoading) {
+  if (!isLoaded) {
     return (
       <div className="text-gray-500 text-sm sm:text-base p-4">
         Loading map...
+      </div>
+    );
+  }
+
+  // FIX 3: Show a friendly "waiting" state instead of an error when no vendor yet
+  if (!vendorId) {
+    return (
+      <div className="text-gray-500 text-sm sm:text-base p-4">
+        Waiting for a vendor to be assigned to your booking...
+      </div>
+    );
+  }
+
+  if (isLoading && !driverPosition) {
+    return (
+      <div className="text-gray-500 text-sm sm:text-base p-4">
+        Loading vendor location...
       </div>
     );
   }
@@ -228,9 +258,16 @@ const LiveMap = ({ bookingId, userToken }) => {
             </InfoWindow>
           )}
         </GoogleMap>
+
         <div className="flex justify-between text-blue-600 font-semibold text-lg px-2">
-          <span>Vendor is on the way!</span>
-          <span>Arriving in {ETA}</span>
+          {driverPosition ? (
+            <>
+              <span>Vendor is on the way!</span>
+              <span>Arriving in {ETA}</span>
+            </>
+          ) : (
+            <span>Vendor assigned — waiting for location update...</span>
+          )}
         </div>
       </div>
     </ErrorBoundary>
