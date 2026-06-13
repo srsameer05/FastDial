@@ -340,6 +340,7 @@ function* getCustomersSaga() {
   }
 }
 
+
 function* getCustomerServiceDetailsSaga() {
   try {
     const response = yield call(getCustomerServiceDetailsAPI);
@@ -469,7 +470,9 @@ function* getAllPaymentDetailsSaga() {
 function* getVendorComplaintsSaga() {
   try {
     const response = yield call(getVendorComplaintsAPI);
-    const complaints = Array.isArray(response.data) ? response.data : [];
+    const complaints = Array.isArray(response.data)
+      ? response.data
+      : response.data?.data || [];
     yield put(getVendorComplaintsSuccess(complaints));
   } catch (error) {
     yield put(getVendorComplaintsFailure(error.message));
@@ -479,7 +482,9 @@ function* getVendorComplaintsSaga() {
 function* getCustomerComplaintsSaga() {
   try {
     const response = yield call(getCustomerComplaintsAPI);
-    const complaints = Array.isArray(response.data) ? response.data : [];
+    const complaints = Array.isArray(response.data)
+      ? response.data
+      : response.data?.data || [];
     yield put(getCustomerComplaintsSuccess(complaints));
   } catch (error) {
     yield put(getCustomerComplaintsFailure(error.message));

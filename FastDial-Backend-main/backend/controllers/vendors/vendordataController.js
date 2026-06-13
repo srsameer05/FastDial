@@ -405,7 +405,13 @@ exports.service_with_category = catchAsyncError(async (req, res, next) => {
 // VENDORSCOMPLAINTS->
 
 exports.getvendorscomplaints = catchAsyncError(async (req, res, next) => {
-  getData(req, res, "VENDORSCOMPLAINTS");
+  const vendorId = req.user.vendor_id;
+  const result = await db(
+    `SELECT id AS vend_comp_id, vendor_id, vend_comp_desc, vend_comp_date, created_at 
+     FROM VENDORSCOMPLAINTS WHERE vendor_id = ?`,
+    [vendorId]
+  );
+  res.status(200).json({ success: true, data: result });
 });
 
 exports.insertvendorscomplaints = catchAsyncError(async (req, res, next) => {
@@ -414,32 +420,36 @@ exports.insertvendorscomplaints = catchAsyncError(async (req, res, next) => {
 });
 
 exports.updatevendorscomplaints = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("VENDORSCOMPLAINTS", req, "vend_comp_id");
-  res.status(200).send({ message: "Request submitted" });
+  const { vend_comp_id, vend_comp_desc } = req.body;
+
+  if (!vend_comp_id) {
+    return res.status(400).json({ message: "Complaint ID is required" });
+  }
+
+  await db(
+    `UPDATE VENDORSCOMPLAINTS SET vend_comp_desc = ? WHERE id = ?`,
+    [vend_comp_desc, vend_comp_id]
+  );
+
+  res.status(200).json({ message: "Complaint updated successfully" });
 });
 
 exports.deletevendorscomplaints = catchAsyncError(async (req, res, next) => {
   const vend_comp_id = req.params.vend_comp_id;
 
   if (!vend_comp_id) {
-    return res
-      .status(400)
-      .json({ message: "Please provide a complaint ID to delete" });
+    return res.status(400).json({ message: "Please provide a complaint ID to delete" });
   }
 
-  const checkQuery = `SELECT * FROM VENDORSCOMPLAINTS WHERE vend_comp_id = ?`;
-  const complaint = await db(checkQuery, [vend_comp_id]);
+  const complaint = await db(`SELECT * FROM VENDORSCOMPLAINTS WHERE id = ?`, [vend_comp_id]);
 
   if (complaint.length === 0) {
     return res.status(404).json({ message: "Complaint not found" });
   }
 
-  const deleteQuery = `DELETE FROM VENDORSCOMPLAINTS WHERE vend_comp_id = ?`;
-  await db(deleteQuery, [vend_comp_id]);
-
+  await db(`DELETE FROM VENDORSCOMPLAINTS WHERE id = ?`, [vend_comp_id]);
   res.status(200).json({ message: "Complaint deleted successfully" });
 });
-
 // exports.getcustomerservices = async (req, res) => {
 //   const { vendor_id } = req.params;
 
@@ -904,9 +914,31 @@ exports.getVendorEarnings = async (req, res) => {
 };
 
 exports.updateservicebooking = catchAsyncError(async (req, res, next) => {
-  await generateUpdateStatement("SERVICEBOOKINGS", req, "booking_id");
-  res.status(200).send({ message: "Request submitted" });
+  const { booking_id, is_completed, is_cancelled, customer_id, vendor_id } = req.body;
+
+  if (!booking_id) {
+    return res.status(400).json({ message: "booking_id is required" });
+  }
+
+  const now = new Date();
+
+  let query = "";
+  let values = [];
+
+  if (is_completed == 1) {
+    query = `UPDATE SERVICEBOOKINGS SET is_completed = 1, is_cancelled = 0, completed_date = ? WHERE booking_id = ?`;
+    values = [now, booking_id];
+  } else if (is_cancelled == 1) {
+    query = `UPDATE SERVICEBOOKINGS SET is_cancelled = 1, is_completed = 0, cancelled_date = ? WHERE booking_id = ?`;
+    values = [now, booking_id];
+  } else {
+    return res.status(400).json({ message: "Invalid update: set is_completed or is_cancelled to 1" });
+  }
+
+  await db(query, values);
+  res.status(200).json({ message: "Request submitted" });
 });
+
 
 exports.getSUBSCRIPTIONS = catchAsyncError(async (req, res, next) => {
   getData(req, res, "SUBSCRIPTIONS");

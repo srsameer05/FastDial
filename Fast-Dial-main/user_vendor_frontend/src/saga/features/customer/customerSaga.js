@@ -27,56 +27,56 @@ import {
   verifyPaymentBookNowFailure,
 
 
-// Booking and Service Insertion
-insertServiceBookingRequest,
-insertServiceBookingSuccess,
-insertServiceBookingFailure,
-insertServiceBookingLaterRequest,
-insertServiceBookingLaterSuccess,
-insertServiceBookingLaterFailure,
+  // Booking and Service Insertion
+  insertServiceBookingRequest,
+  insertServiceBookingSuccess,
+  insertServiceBookingFailure,
+  insertServiceBookingLaterRequest,
+  insertServiceBookingLaterSuccess,
+  insertServiceBookingLaterFailure,
 
-// Vendors and Services
-getVendorsWithServicesRequest,
-getVendorsWithServicesSuccess,
-getVendorsWithServicesFailure,
-getService_CategoriesRequest,
-getService_CategoriesSuccess,
-getService_CategoriesFailure,
-getServicesByCategoryRequest,
-getServicesByCategorySuccess,
-getServicesByCategoryFailure,
+  // Vendors and Services
+  getVendorsWithServicesRequest,
+  getVendorsWithServicesSuccess,
+  getVendorsWithServicesFailure,
+  getService_CategoriesRequest,
+  getService_CategoriesSuccess,
+  getService_CategoriesFailure,
+  getServicesByCategoryRequest,
+  getServicesByCategorySuccess,
+  getServicesByCategoryFailure,
 
-// Customer Service Details
-getCustomerServiceDetailsRequest,
-getCustomerServiceDetailsSuccess,
-getCustomerServiceDetailsFailure,
+  // Customer Service Details
+  getCustomerServiceDetailsRequest,
+  getCustomerServiceDetailsSuccess,
+  getCustomerServiceDetailsFailure,
 
-// Reviews
-insertReviewRequest,
-insertReviewSuccess,
-insertReviewFailure,
-getReviewsRequest,
-getReviewsSuccess,
-getReviewsFailure,
-updateReviewRequest,
-updateReviewSuccess,
-updateReviewFailure,
-deleteReviewRequest,
-deleteReviewSuccess,
-deleteReviewFailure,
+  // Reviews
+  insertReviewRequest,
+  insertReviewSuccess,
+  insertReviewFailure,
+  getReviewsRequest,
+  getReviewsSuccess,
+  getReviewsFailure,
+  updateReviewRequest,
+  updateReviewSuccess,
+  updateReviewFailure,
+  deleteReviewRequest,
+  deleteReviewSuccess,
+  deleteReviewFailure,
 
-// Bookings
-getCompletedBookingsRequest,
-getCompletedBookingsSuccess,
-getCompletedBookingsFailure,
-getCancelledBookingsRequest,
-getCancelledBookingsSuccess,
-getCancelledBookingsFailure,
-getUpcomingBookingsRequest,
-getUpcomingBookingsSuccess,
-getUpcomingBookingsFailure,
-// New actions for chat vendors
-getVendorsForChatRequest, getVendorsForChatSuccess, getVendorsForChatFailure,
+  // Bookings
+  getCompletedBookingsRequest,
+  getCompletedBookingsSuccess,
+  getCompletedBookingsFailure,
+  getCancelledBookingsRequest,
+  getCancelledBookingsSuccess,
+  getCancelledBookingsFailure,
+  getUpcomingBookingsRequest,
+  getUpcomingBookingsSuccess,
+  getUpcomingBookingsFailure,
+  // New actions for chat vendors
+  getVendorsForChatRequest, getVendorsForChatSuccess, getVendorsForChatFailure,
   bookingDetailsRequest,
   bookingDetailsSuccess,
   bookingDetailsFailure,
@@ -119,8 +119,8 @@ import {
   getCustomerBookingsAPI,
   getCustomerCancelledBookingsAPI,
   getCustomerUpcomingBookingsAPI,
-  initiatePaymentAPI, 
-  verifyPaymentAPI ,
+  initiatePaymentAPI,
+  verifyPaymentAPI,
   getVendorsForCustomerAPI,
   getBookingDetailsAPI,
   initiatePaymentForBookNowAPI,
@@ -225,7 +225,7 @@ function* getService_CategoriesSaga() {
   }
 }
 
- function* getServiceCategoriesSaga() {
+function* getServiceCategoriesSaga() {
   console.log('getServiceCategoriesSaga: Triggered');
   try {
     const response = yield call(getServiceCategoriesAPI);
@@ -283,34 +283,13 @@ function* registerCustomerSaga(action) {
     const customerData = action.payload;
     const token = localStorage.getItem('token');
     console.log('registerCustomerSaga: Token from localStorage:', token);
-    if (!token || token === 'null' || token === 'undefined') {
-      throw new Error('Authentication token is missing. Please login to continue.');
-    }
     const response = yield call(registerCustomerAPI, customerData);
     console.log('registerCustomerSaga: API Response:', response.data);
-    localStorage.removeItem('pending_customer_registration');
     yield put(registerCustomerSuccess({ id: response.data.id }));
     console.log('registerCustomerSaga: registerCustomerSuccess dispatched');
   } catch (error) {
     console.error('registerCustomerSaga: Error:', error.response?.data || error.message);
-    const status = error?.response?.status;
-    const message = error?.response?.data?.message || error.message;
-    const isAuthFailure = status === 401 || (typeof message === 'string' && message.toLowerCase().includes('authentication token is missing'));
-
-    if (isAuthFailure) {
-      if (action?.payload) {
-        localStorage.setItem('pending_customer_registration', JSON.stringify(action.payload));
-      }
-      localStorage.removeItem('token');
-      localStorage.removeItem('customer_id');
-      yield put(registerCustomerFailure('Session expired. Please login again.'));
-      if (typeof window !== 'undefined') {
-        window.location.href = '/';
-      }
-      return;
-    }
-
-    yield put(registerCustomerFailure(message));
+    yield put(registerCustomerFailure(error.response?.data?.message || error.message));
   }
 }
 
@@ -502,30 +481,59 @@ function* getVendorsWithServicesSaga() {
     yield put(getVendorsWithServicesFailure(error.response?.data?.message || error.message));
   }
 }
+
 function* getCustomerServiceDetailsSaga() {
-  console.log('getCustomerServiceDetailsSaga: Triggered');
+  console.log("getCustomerServiceDetailsSaga: Triggered");
+
   try {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
+
     if (!token) {
-      throw new Error('Please Login to continue');
+      throw new Error("Please Login to continue");
     }
+
     const response = yield call(getCustomerServiceDetailsAPI);
-    console.log('getCustomerServiceDetailsSaga: API Response:', response.data);
-    
-    // ✅ Handle both { success: true, data: [...] } and plain array
-    const customerServiceDetails = Array.isArray(response.data)
-      ? response.data
-      : response.data.data || [];
-      
-    console.log('getCustomerServiceDetailsSaga: Bookings with scheduled_date:', 
-      customerServiceDetails.filter(b => b.scheduled_date));
-    yield put(getCustomerServiceDetailsSuccess(customerServiceDetails));
+
+    console.log(
+      "getCustomerServiceDetailsSaga: API Response:",
+      response.data
+    );
+
+    const bookings = response.data.data || [];
+
+    console.log(
+      "getCustomerServiceDetailsSaga: Total Bookings:",
+      bookings.length
+    );
+
+    console.log(
+      "getCustomerServiceDetailsSaga: Latest Booking:",
+      bookings[bookings.length - 1]
+    );
+
+    yield put(
+      getCustomerServiceDetailsSuccess(bookings)
+    );
+
+    console.log(
+      "getCustomerServiceDetailsSaga: Success dispatched"
+    );
+
   } catch (error) {
-    console.error('getCustomerServiceDetailsSaga: Error:', error.response?.data || error.message);
-    yield put(getCustomerServiceDetailsFailure(error.response?.data?.message || error.message));
+    console.error(
+      "getCustomerServiceDetailsSaga:",
+      error.response?.data || error.message
+    );
+
+    yield put(
+      getCustomerServiceDetailsFailure(
+        error.response?.data?.message || error.message
+      )
+    );
   }
 }
- function* getServicesByCategorySaga(action) {
+
+function* getServicesByCategorySaga(action) {
   console.log('getServicesByCategorySaga: Triggered with serviceCatId:', action.payload);
   try {
     const response = yield call(getServicesByCategoryAPI, action.payload);
@@ -707,11 +715,11 @@ function* getVendorsForChatSaga() {
     console.log('getVendorsForChatSaga: API Response:', response.data);
     const vendors = Array.isArray(response.data.data)
       ? response.data.data.map((vendor) => ({
-          vendor_id: vendor.vendor_id,
-          vendor_name: vendor.vendor_name,
-          avatar: vendor.image_url?.[0] || hold,
-          service_category: vendor.bussiness_category || 'Vendor',
-        }))
+        vendor_id: vendor.vendor_id,
+        vendor_name: vendor.vendor_name,
+        avatar: vendor.image_url?.[0] || hold,
+        service_category: vendor.bussiness_category || 'Vendor',
+      }))
       : [];
     yield put(getVendorsForChatSuccess(vendors));
     console.log('getVendorsForChatSaga: getVendorsForChatSuccess dispatched with:', vendors);
@@ -793,7 +801,7 @@ function* insertAddressSaga(action) {
     console.error('insertAddressSaga: Error:', error.response?.data || error.message);
     yield put(insertAddressFailure(error.response?.data?.message || error.message));
   }
-} 
+}
 
 function* getCustomerAddressSaga() {
   console.log('getCustomerAddressSaga: Triggered');

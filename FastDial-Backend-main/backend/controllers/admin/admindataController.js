@@ -130,6 +130,7 @@ exports.getvendors = catchAsyncError(async (req, res, next) => {
   });
 });
 
+
 exports.getcustomerservice = catchAsyncError(async (req, res, next) => {
   const results = await db(`
     SELECT 
@@ -148,7 +149,12 @@ exports.getcustomerservice = catchAsyncError(async (req, res, next) => {
       c.customer_name,
       c.mobile,
       c.customer_email,
+      c.gender,
+      c.customer_country,
+      c.customer_address,
       s.service_name,
+      s.service_description AS service_desc,   -- ✅ correct column name
+      s.service_price,                          -- ✅ from SERVICES, always available
       sc.service_category_name,
       sc.service_category_url,
       v.vendor_name,

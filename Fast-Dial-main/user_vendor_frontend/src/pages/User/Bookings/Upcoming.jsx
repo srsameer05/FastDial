@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import axios from "axios";
 import { getUpcomingBookingsRequest } from "../../../saga/features/customer/customerSlice";
 
+import dummyImage from "../../../assets/image.png";
 const BASEURL = import.meta.env.VITE_API_URL;
 
 const Upcoming = () => {
@@ -83,10 +84,10 @@ const Upcoming = () => {
           <div className="flex gap-4 p-4">
             <div className="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
               <img
-                src={booking.service_category_url}
+                src={booking.service_category_url || dummyImage}
                 alt={booking.service_category_name || "Service"}
                 className="w-full h-full object-cover"
-                onError={(e) => { e.target.src = "https://via.placeholder.com/96x96?text=Service"; }}
+                onError={(e) => { e.target.src = dummyImage; }}
               />
             </div>
             <div className="flex-1 min-w-0">

@@ -9,7 +9,7 @@ import { getVendorComplaintsRequest, getCustomerComplaintsRequest } from "../../
 export default function Complaints() {
   const [activeTab, setActiveTab] = useState("Open");
   const [selectedComplaint, setSelectedComplaint] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   const {
     vendorComplaints,
@@ -79,21 +79,19 @@ export default function Complaints() {
             />
             <div className="mb-4">
               <button
-                className={`px-4 py-2 rounded-2xl mr-[10px] ${
-                  activeTab === "Open"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 hover:bg-gray-300"
-                }`}
+                className={`px-4 py-2 rounded-2xl mr-[10px] ${activeTab === "Open"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+                  }`}
                 onClick={() => setActiveTab("Open")}
               >
                 Vendor
               </button>
               <button
-                className={`px-4 py-2 rounded-2xl ${
-                  activeTab === "Closed"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 hover:bg-gray-300"
-                }`}
+                className={`px-4 py-2 rounded-2xl ${activeTab === "Closed"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+                  }`}
                 onClick={() => setActiveTab("Closed")}
               >
                 Customer
@@ -103,7 +101,7 @@ export default function Complaints() {
             {/* Complaint List */}
             <div className="max-h-[500px] overflow-y-auto">
               {(activeTab === "Open" && getVendorComplaintsLoading) ||
-              (activeTab === "Closed" && getCustomerComplaintsLoading) ? (
+                (activeTab === "Closed" && getCustomerComplaintsLoading) ? (
                 <p className="text-gray-500">Loading...</p>
               ) : (activeTab === "Open" && getVendorComplaintsError) ||
                 (activeTab === "Closed" && getCustomerComplaintsError) ? (
@@ -114,12 +112,11 @@ export default function Complaints() {
                 displayedComplaints.map((complaint) => (
                   <div
                     key={complaint.vend_comp_id || complaint.cust_comp_id}
-                    className={`p-3 bg-white rounded shadow-md mb-2 cursor-pointer hover:bg-gray-50 ${
-                      selectedComplaint?.vend_comp_id === complaint.vend_comp_id ||
+                    className={`p-3 bg-white rounded shadow-md mb-2 cursor-pointer hover:bg-gray-50 ${selectedComplaint?.vend_comp_id === complaint.vend_comp_id ||
                       selectedComplaint?.cust_comp_id === complaint.cust_comp_id
-                        ? "border-l-4 border-blue-500"
-                        : ""
-                    }`}
+                      ? "border-l-4 border-blue-500"
+                      : ""
+                      }`}
                     onClick={() => handleComplaintClick(complaint)}
                   >
                     <p className="font-bold text-gray-800">
@@ -168,23 +165,24 @@ export default function Complaints() {
                       <span className="text-gray-900">
                         {selectedComplaint.vend_comp_date || selectedComplaint.cust_comp_date
                           ? new Date(
-                              selectedComplaint.vend_comp_date || selectedComplaint.cust_comp_date
-                            ).toLocaleString()
+                            selectedComplaint.vend_comp_date || selectedComplaint.cust_comp_date
+                          ).toLocaleString()
                           : "No date"}
                       </span>
                     </p>
                   </div>
                   <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                    // Find this block and replace:
                     <p className="text-sm">
                       <strong className="text-gray-700">Email:</strong>{" "}
                       <span className="text-gray-900">
-                        {selectedComplaint.customer_email || "N/A"}
+                        {selectedComplaint.vendor_email || selectedComplaint.customer_email || "N/A"}
                       </span>
                     </p>
                     <p className="text-sm">
                       <strong className="text-gray-700">Mobile:</strong>{" "}
                       <span className="text-gray-900">
-                        {selectedComplaint.customer_mobile || "N/A"}
+                        {selectedComplaint.vendor_mobile || selectedComplaint.customer_mobile || "N/A"}
                       </span>
                     </p>
                   </div>

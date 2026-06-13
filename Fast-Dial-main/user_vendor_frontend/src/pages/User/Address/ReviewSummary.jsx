@@ -1,6 +1,6 @@
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
-import bigImg from "../../../assets/BigImg.png";
+import bigImg from "../../../assets/cleaning.png";
 
 const ReviewSummary = () => {
   return (
