@@ -297,7 +297,7 @@ const BookingDetails = () => {
         service.vendor_id === null &&
         (!selectedCategory ||
           service.service_category_name ===
-            selectedCategory.service_category_name)
+          selectedCategory.service_category_name)
     )
   );
 
@@ -311,7 +311,7 @@ const BookingDetails = () => {
           service.vendor_id !== null &&
           (!selectedCategory ||
             service.service_category_name ===
-              selectedCategory.service_category_name)
+            selectedCategory.service_category_name)
       )
       .map((service) => {
         const reviewsForService =
@@ -333,9 +333,8 @@ const BookingDetails = () => {
 
   const formatAddress = (address) => {
     if (!address || typeof address !== "object") return "N/A";
-    return `${address.street || ""}, ${address.city || ""}, ${
-      address.state || ""
-    }, ${address.zip || ""}`
+    return `${address.street || ""}, ${address.city || ""}, ${address.state || ""
+      }, ${address.zip || ""}`
       .replace(/, ,/g, ",")
       .replace(/,$/, "");
   };
@@ -460,11 +459,10 @@ const BookingDetails = () => {
               <button
                 key={tab}
                 onClick={() => handleTabClick(tab)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  activeTab === tab
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-100"
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === tab
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+                  }`}
               >
                 {tab}
               </button>
@@ -567,21 +565,19 @@ const BookingDetails = () => {
         <div className="mb-6 flex space-x-4">
           <button
             onClick={() => setShowSection("service")}
-            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
-              showSection === "service"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
+            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${showSection === "service"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
           >
             Service Request
           </button>
           <button
             onClick={() => setShowSection("assigned")}
-            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
-              showSection === "assigned"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
+            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${showSection === "assigned"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
             disabled={!filteredAssignedServices.length}
           >
             Assigned
@@ -607,9 +603,8 @@ const BookingDetails = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredUnassignedServices.map((service, index) => (
                   <div
-                    key={`${service.customer_id}-${
-                      service.booking_id || index
-                    }`}
+                    key={`${service.customer_id}-${service.booking_id || index
+                      }`}
                     className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
                   >
                     <div className="flex justify-between items-start">
@@ -674,9 +669,8 @@ const BookingDetails = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredAssignedServices.map((service, index) => (
                     <div
-                      key={`${service.customer_id}-${
-                        service.booking_id || index
-                      }`}
+                      key={`${service.customer_id}-${service.booking_id || index
+                        }`}
                       className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
                     >
                       <div className="flex justify-between items-start">
@@ -712,11 +706,10 @@ const BookingDetails = () => {
                         </button>
                         <button
                           onClick={() => handleReviewsView(service.reviews)}
-                          className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
-                            !service.reviews || service.reviews.length === 0
-                              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                              : "bg-gray-500 text-white hover:bg-gray-600"
-                          }`}
+                          className={`flex items-center px-4 py-2 rounded-lg transition-colors ${!service.reviews || service.reviews.length === 0
+                            ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                            : "bg-gray-500 text-white hover:bg-gray-600"
+                            }`}
                           disabled={
                             !service.reviews || service.reviews.length === 0
                           }
@@ -775,11 +768,10 @@ const BookingDetails = () => {
                     <div className="mt-4">
                       <button
                         onClick={() => handleVendorSelection(vendor.vendor_id)}
-                        className={`w-full text-center px-4 py-2 rounded-lg font-medium transition-colors ${
-                          selectedVendor === vendor.vendor_id
-                            ? "bg-blue-600 text-white"
-                            : "bg-green-500 text-white hover:bg-green-600"
-                        }`}
+                        className={`w-full text-center px-4 py-2 rounded-lg font-medium transition-colors ${selectedVendor === vendor.vendor_id
+                          ? "bg-blue-600 text-white"
+                          : "bg-green-500 text-white hover:bg-green-600"
+                          }`}
                       >
                         {selectedVendor === vendor.vendor_id
                           ? "Selected"
@@ -884,7 +876,7 @@ const BookingDetails = () => {
                       Vendor ID
                     </td>
                     <td className="py-3">
-                      {selectedCustomerService.vendor_id || "N/A"}
+                      {selectedCustomerService.vendor_id || "Not Assigned"}
                     </td>
                   </tr>
                   <tr>
@@ -908,7 +900,9 @@ const BookingDetails = () => {
                       Service Price
                     </td>
                     <td className="py-3">
-                      ₹ {selectedCustomerService.service_price || "N/A"}
+                      ₹ {selectedCustomerService.service_price
+                        ? ` ${selectedCustomerService.service_price}`
+                        : "Available after vendor assignment"}
                     </td>
                   </tr>
                   <tr>
@@ -941,7 +935,9 @@ const BookingDetails = () => {
                       Cancelled Reason
                     </td>
                     <td className="py-3">
-                      {selectedCustomerService.cancelled_reason || "N/A"}
+                      {selectedCustomerService.is_cancelled
+                        ? (selectedCustomerService.cancelled_reason || "No reason provided")
+                        : "Not Cancelled"}
                     </td>
                   </tr>
                 </tbody>
@@ -1002,11 +998,10 @@ const BookingDetails = () => {
                 </button>
                 <button
                   onClick={confirmAssignment}
-                  className={`${
-                    updateServiceBookingLoading
-                      ? "bg-blue-300 cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700"
-                  } text-white px-5 py-2 rounded-lg font-medium transition duration-200`}
+                  className={`${updateServiceBookingLoading
+                    ? "bg-blue-300 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
+                    } text-white px-5 py-2 rounded-lg font-medium transition duration-200`}
                   disabled={updateServiceBookingLoading}
                 >
                   {updateServiceBookingLoading
@@ -1043,11 +1038,10 @@ const BookingDetails = () => {
                       {[...Array(5)].map((_, i) => (
                         <span
                           key={i}
-                          className={`text-2xl ${
-                            i < review.rating
-                              ? "text-yellow-400"
-                              : "text-gray-300"
-                          }`}
+                          className={`text-2xl ${i < review.rating
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                            }`}
                         >
                           ★
                         </span>
